@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/top_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/search"/>
+
+        <Button
+            android:id="@+id/notice"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bell"/>
+        <View
+            android:layout_width="5dp"
+            android:layout_height="1dp"/>
+        <Button
+            android:id="@+id/addFolder"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/add_folder"/>
+        <View
+            android:layout_width="10dp"
+            android:layout_height="1dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="推荐"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="关注"
+            android:textSize="20dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#bbbb"
+        android:showDividers="middle"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#0AC063">
+            <ImageView
+                android:layout_marginStart="20dp"
+                android:layout_gravity="center"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/place"/>
+            <TextView
+                android:layout_marginStart="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择模板"
+                android:textSize="30sp"
+                android:textColor="#E2F9EE"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/btnTeach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="教技"
+            android:background="#FFFFFF"
+            />
+        <Button
+            android:id="@+id/btnDraw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="艺术"
+            android:background="#FFFFFF"
+            />
+
+        <Button
+            android:id="@+id/btnSport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="体育"
+            android:background="#FFFFFF"
+            android:layout_marginBottom="10dp"/>
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:background="#FFFFFF"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

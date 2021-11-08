@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26979166666666665" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/activity_add_post.xml" value="0.4" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/activity_notice.xml" value="0.264" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/activity_picture_display.xml" value="0.25364583333333335" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/activity_picture_show.xml" value="0.1484375" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/activity_post_details.xml" value="0.2" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/add_post_picture_pop.xml" value="0.4" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/add_post_place_pop.xml" value="0.264" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/add_post_pop.xml" value="0.536" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/add_post_reply_pop.xml" value="0.264" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/bottom.xml" value="0.264" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/draw_fragment.xml" value="0.4" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/fragment_pic_display.xml" value="0.25364583333333335" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/hot_fragment.xml" value="0.25364583333333335" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/itemlaout.xml" value="0.4" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/pic_display_fragment.xml" value="0.25364583333333335" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/picture_pager_item.xml" value="0.1484375" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/pop.xml" value="0.16041666666666668" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/post_item.xml" value="0.264" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/post_picture_item.xml" value="0.1578125" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/reply_item.xml" value="0.4" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/sport_fragment.xml" value="0.264" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/teach_fragment.xml" value="0.264" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/teach_item.xml" value="0.4" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/top_layout.xml" value="0.4" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/user_fragment.xml" value="0.1296875" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/xml/style.xml" value="0.16041666666666668" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
