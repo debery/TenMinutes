@@ -7,10 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.PopupWindow
+import android.widget.*
 
 class AddPostActivity : AppCompatActivity() {
 
@@ -22,6 +19,7 @@ class AddPostActivity : AppCompatActivity() {
         val btnFinish:ImageView=findViewById(R.id.btnAddPostActivityFinish)
         val choosePlace:LinearLayout=findViewById(R.id.addPostActivityPlaceLayout)
         val picture1:ImageView=findViewById(R.id.picture1)
+        val deliver:Button=findViewById(R.id.deliver)
         btnFinish.setOnClickListener {
             finish()
         }
@@ -30,6 +28,9 @@ class AddPostActivity : AppCompatActivity() {
         }
         choosePlace.setOnClickListener {
             showPlacePopWindow()
+        }
+        deliver.setOnClickListener {
+            Toast.makeText(this,"接口未部署",Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -19,7 +19,7 @@
             android:layout_height="1dp"
             android:layout_weight="1"/>
         <Button
-            android:id="@+id/btnAddPostActivityDeliver"
+            android:id="@+id/deliver"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:layout_width="60dp"
