@@ -8,9 +8,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
 import android.widget.*
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.lang.Exception
+import kotlin.concurrent.thread
 
 class AddPostActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +35,11 @@ class AddPostActivity : AppCompatActivity() {
         }
         choosePlace.setOnClickListener {
             showPlacePopWindow()
+            Toast.makeText(this,"目前暂且仅支持默认发表在艺术板块",Toast.LENGTH_SHORT).show()
         }
         deliver.setOnClickListener {
-            Toast.makeText(this,"接口未部署",Toast.LENGTH_SHORT).show()
+            postArtsAdd()//假设一定成功
+            finish()
         }
     }
 
@@ -125,6 +133,32 @@ class AddPostActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun postArtsAdd(){
+        val printTitle:EditText=findViewById(R.id.printTitle)
+        val printContent:EditText=findViewById(R.id.printContent)
+        thread {
+            try{
+                val requestBody= FormBody.Builder()
+                    .add("nickname","测试员1号")
+                    .add("post_title",printTitle.text.toString())
+                    .add("content",printContent.text.toString())
+                    .build()
+                val client= OkHttpClient()
+                val request= Request.Builder()
+                    .url("http://120.24.191.82:8080/PostOfArts/add")
+                    .post(requestBody)
+                    .build()
+                client.newCall(request).execute()
+
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
+
+    }
+
+
 
 
 }

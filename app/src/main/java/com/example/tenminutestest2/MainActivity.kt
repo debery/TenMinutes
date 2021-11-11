@@ -89,7 +89,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         btnSearch.setOnClickListener {
-
+            val intent=Intent(this,SearchActivity::class.java)
+            startActivity(intent)
         }
 
     }
@@ -283,29 +284,7 @@ class MainActivity : AppCompatActivity() {
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
 
-    //启动ActivityForResult后回调此处，1是在popupWindow里的cameraMethod，2是AlbumMethod
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
-            1->{
-                if(resultCode== Activity.RESULT_OK){
-                    val imageViewShow: ImageView=findViewById(R.id.imageViewShow)//
-                    val bitmap= BitmapFactory.decodeStream(this.contentResolver?.openInputStream(imageUri))
-                    imageViewShow.setImageBitmap(bitmap)
-                }
-            }
-            2->{
-                if(resultCode== Activity.RESULT_OK&&data!=null)
-                    data.data?.let{uri ->
-                        val imageViewShow: ImageView=findViewById(R.id.imageViewShow)//
-                        val bitmap=contentResolver?.openFileDescriptor(uri,"r")?.use{
-                            BitmapFactory.decodeFileDescriptor(it.fileDescriptor)
-                        }
-                        imageViewShow.setImageBitmap(bitmap)
-                    }
-            }
-        }
-    }
+
 
 
 }

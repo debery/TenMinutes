@@ -10,12 +10,13 @@
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/activity_picture_display.xml" value="0.25364583333333335" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/activity_picture_show.xml" value="0.1484375" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/activity_post_details.xml" value="0.2" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/activity_search.xml" value="1.0" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/add_post_picture_pop.xml" value="0.4" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/add_post_place_pop.xml" value="0.264" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/add_post_pop.xml" value="0.536" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/add_post_reply_pop.xml" value="0.264" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/bottom.xml" value="0.264" />
-        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/draw_fragment.xml" value="0.4" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/draw_fragment.xml" value="0.1" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/fragment_pic_display.xml" value="0.25364583333333335" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/hot_fragment.xml" value="0.25364583333333335" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/itemlaout.xml" value="0.4" />
@@ -30,6 +31,7 @@
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/teach_item.xml" value="0.4" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/top_layout.xml" value="0.4" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/layout/user_fragment.xml" value="0.1296875" />
+        <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/xml/network_config.xml" value="0.1703125" />
         <entry key="..\:/HydroArchon/AndroidStudioCode/Projects/TenMinute/TenMinutesTest2/app/src/main/res/xml/style.xml" value="0.16041666666666668" />
       </map>
     </option>

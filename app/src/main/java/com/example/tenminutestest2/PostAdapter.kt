@@ -87,7 +87,8 @@ class PostAdapter(val postList: List<Post>): RecyclerView.Adapter<PostAdapter.Vi
 
         holder.agreedLayout.setOnClickListener{
             post.agreedCount++/* 待修改，应设置为每个用户只生效1次*/
-            holder.agreedIcon.setBackgroundResource(R.drawable.dianzan_fill)
+            holder.agreedIcon.setBackgroundResource(R.drawable.dianzan_fill
+            )
             holder.dianzan.text="${post.agreedCount}"
         }
 
