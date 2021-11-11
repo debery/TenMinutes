@@ -25,6 +25,7 @@ class AddPostActivity : AppCompatActivity() {
         }
         picture1.setOnClickListener {
             showPicturePopWindow()
+            Toast.makeText(this,"暂不支持传输图片,此操作为无效操作",Toast.LENGTH_SHORT).show()
         }
         choosePlace.setOnClickListener {
             showPlacePopWindow()
@@ -59,6 +60,7 @@ class AddPostActivity : AppCompatActivity() {
             popupWindow.dismiss()
             backgroundAlpha(1f)
         }
+
     }
 
     //弹窗的控制代码

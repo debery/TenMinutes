@@ -33,14 +33,14 @@
         android:layout_height="2dp"
         android:background="@color/gray"/>
     <EditText
-        android:id="@+id/addPostActivityPrintTitle"
+        android:id="@+id/printTitle"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="输入标题（必填）"
+        android:hint="输入标题（必填，4-10字）"
         android:maxLines="1"
         android:background="@null"/>
     <View
@@ -48,7 +48,7 @@
         android:layout_height="1dp"
         android:background="#F6F6F6"/>
     <EditText
-        android:id="@+id/addPostActivityPrintContent"
+        android:id="@+id/printContent"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="10dp"
