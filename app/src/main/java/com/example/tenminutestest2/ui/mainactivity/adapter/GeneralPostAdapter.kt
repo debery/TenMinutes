@@ -1,7 +1,5 @@
-package com.example.tenminutestest2
+package com.example.tenminutestest2.ui.mainactivity.adapter
 
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +8,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.tenminutestest2.R
+import com.example.tenminutestest2.logic.model.PostB
 
 class GeneralPostAdapter(val postList:List<PostB>):RecyclerView.Adapter<GeneralPostAdapter.ViewHolder>() {
 
@@ -49,12 +48,12 @@ class GeneralPostAdapter(val postList:List<PostB>):RecyclerView.Adapter<GeneralP
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): GeneralPostAdapter.ViewHolder {
+    ): ViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.post_item,parent,false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: GeneralPostAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post=postList[position]
         holder.nickname.text=post.nickname
         //if(post.user_avatar!=null)Glide.with(MyApplication.context).load(Uri.parse(post.user_avatar)).into(holder.userAvatar)

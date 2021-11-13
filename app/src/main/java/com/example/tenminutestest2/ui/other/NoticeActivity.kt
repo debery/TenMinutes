@@ -1,4 +1,4 @@
-package com.example.tenminutestest2
+package com.example.tenminutestest2.ui.other
 
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tenminutestest2.R

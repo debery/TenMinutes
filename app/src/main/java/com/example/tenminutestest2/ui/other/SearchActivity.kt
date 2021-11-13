@@ -1,7 +1,8 @@
-package com.example.tenminutestest2
+package com.example.tenminutestest2.ui.other
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.tenminutestest2.R
 
 class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

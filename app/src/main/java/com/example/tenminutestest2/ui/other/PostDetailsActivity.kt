@@ -1,4 +1,4 @@
-package com.example.tenminutestest2
+package com.example.tenminutestest2.ui.other
 
 
 import android.os.Bundle
@@ -11,6 +11,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tenminutestest2.R
+import com.example.tenminutestest2.logic.model.Post
+import com.example.tenminutestest2.logic.model.Reply
+import com.example.tenminutestest2.ui.mainactivity.adapter.ReplyAdapter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -40,7 +44,7 @@ class PostDetailsActivity:AppCompatActivity() {
         val replyRecyclerView:RecyclerView=findViewById(R.id.postReplyRecycler)
         replyRecyclerView.layoutManager=LinearLayoutManager(this)
         if(replyList!=null){
-            replyRecyclerView.adapter=ReplyAdapter(replyList!!)
+            replyRecyclerView.adapter= ReplyAdapter(replyList!!)
         }//没有回复的帖子不绑定适配器，以免崩溃
     }
 
@@ -74,7 +78,7 @@ class PostDetailsActivity:AppCompatActivity() {
 
     }
 
-    private fun initPost(post:Post){
+    private fun initPost(post: Post){
         //头像，昵称，帖子标题以及内容与一张图片
         val userHeadImage: ImageView = findViewById(R.id.userHeadImage)
         val userNameText: TextView = findViewById(R.id.userNameText)

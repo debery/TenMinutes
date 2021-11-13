@@ -1,31 +1,30 @@
 package com.example.tenminutestest2
 
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.*
 import android.widget.*
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.tenminutestest2.ui.mainactivity.*
+import com.example.tenminutestest2.ui.other.AddPostActivity
+import com.example.tenminutestest2.ui.other.NoticeActivity
+import com.example.tenminutestest2.ui.other.SearchActivity
 import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
 
-    private var teachTabFragment:TeachTabFragment ?= null
-    private var drawTabFragment:DrawTabFragment ?= null
-    private var sportTabFragment:SportTabFragment ?=null
-    private var userTabFragment:UserTabFragment ?=null
-    private var hotTabFragment:HotTabFragment ?=null
+    private var teachTabFragment: TeachTabFragment?= null
+    private var drawTabFragment: DrawTabFragment?= null
+    private var sportTabFragment: SportTabFragment?=null
+    private var userTabFragment: UserTabFragment?=null
+    private var hotTabFragment: HotTabFragment?=null
 
     //用于上传动态时调用的获取相机
     lateinit var outputImage:File
@@ -85,11 +84,11 @@ class MainActivity : AppCompatActivity() {
             showPopWindow()
         }
         btnNotice.setOnClickListener {
-            val intent = Intent(this,NoticeActivity::class.java)
+            val intent = Intent(this, NoticeActivity::class.java)
             startActivity(intent)
         }
         btnSearch.setOnClickListener {
-            val intent=Intent(this,SearchActivity::class.java)
+            val intent=Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
 
@@ -112,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         val transaction=fragmentManager.beginTransaction()
 
         if(teachTabFragment==null){
-            teachTabFragment=TeachTabFragment()
+            teachTabFragment= TeachTabFragment()
             transaction.add(R.id.content_fragment, teachTabFragment!!)
             transaction.hide(teachTabFragment!!)
         }
@@ -266,7 +265,7 @@ class MainActivity : AppCompatActivity() {
         btnAdd.setOnClickListener {
             popupWindow.dismiss()
             backgroundAlpha(1f)
-            val intent=Intent(this,AddPostActivity::class.java)
+            val intent=Intent(this, AddPostActivity::class.java)
             startActivity(intent)
         }
 

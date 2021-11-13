@@ -1,4 +1,4 @@
-package com.example.tenminutestest2
+package com.example.tenminutestest2.ui.mainactivity.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tenminutestest2.R
+import com.example.tenminutestest2.logic.model.Reply
 
 class ReplyAdapter(val replyList: List<Reply>):RecyclerView.Adapter<ReplyAdapter.ViewHolder>() {
 

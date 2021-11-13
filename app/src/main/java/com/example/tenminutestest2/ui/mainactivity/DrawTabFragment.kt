@@ -1,4 +1,4 @@
-package com.example.tenminutestest2
+package com.example.tenminutestest2.ui.mainactivity
 
 
 import android.os.Bundle
@@ -8,11 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tenminutestest2.R
+import com.example.tenminutestest2.logic.model.PostB
+import com.example.tenminutestest2.logic.model.PostFromServer
+import com.example.tenminutestest2.ui.mainactivity.adapter.GeneralPostAdapter
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -79,13 +81,13 @@ class DrawTabFragment: Fragment() {
     private fun parseJSON(jsonData:String){
         try {
             val gson= Gson()
-            val postFromServer =gson.fromJson(jsonData,PostFromServer::class.java)
+            val postFromServer =gson.fromJson(jsonData, PostFromServer::class.java)
             //val list=gson.fromJson<List<PostB>>(postFromServer.items.toString(),object :TypeToken<List<PostB>>(){}.type)
             postBList.add(postFromServer.items.elementAt(0))
             postBList.add(postFromServer.items.elementAt(1))
             Log.d("wwwwwww","${postFromServer.success}")
             Log.d("wwwwwww","${postFromServer.items}")
-            Log.d("wwwwwww","${PostB(1000000,"11111",post_title = "1111111",content = "22222")}")
+
         }catch (e:Exception){
             e.printStackTrace()
         }

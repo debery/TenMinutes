@@ -1,4 +1,4 @@
-package com.example.tenminutestest2
+package com.example.tenminutestest2.logic.model
 
 import java.io.Serializable
 

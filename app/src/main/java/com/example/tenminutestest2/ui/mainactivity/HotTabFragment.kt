@@ -1,20 +1,18 @@
-package com.example.tenminutestest2
+package com.example.tenminutestest2.ui.mainactivity
 
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import com.example.tenminutestest2.R
 
-class UserTabFragment:Fragment() {
+class HotTabFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.user_fragment,container,false)
+        return inflater.inflate(R.layout.hot_fragment,container,false)
     }
-
 }

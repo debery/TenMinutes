@@ -14,13 +14,13 @@
         android:theme="@style/Theme.TenMinutesTest2"
         android:networkSecurityConfig="@xml/network_config">
         <activity
-            android:name=".SearchActivity"
+            android:name=".ui.other.SearchActivity"
             android:exported="true" />
         <activity
-            android:name=".AddPostActivity"
+            android:name=".ui.other.AddPostActivity"
             android:exported="true" />
         <activity
-            android:name=".PictureShowActivity"
+            android:name=".ui.other.PictureShowActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
@@ -31,8 +31,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PostDetailsActivity" />
-        <activity android:name=".NoticeActivity" />
+        <activity android:name=".ui.other.PostDetailsActivity" />
+        <activity android:name=".ui.other.NoticeActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

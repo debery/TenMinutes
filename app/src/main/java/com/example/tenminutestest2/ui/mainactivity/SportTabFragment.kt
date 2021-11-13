@@ -1,17 +1,15 @@
-package com.example.tenminutestest2
+package com.example.tenminutestest2.ui.mainactivity
 
 import android.graphics.PixelFormat
 import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.MediaController
-import android.widget.PopupWindow
 import android.widget.VideoView
 import androidx.fragment.app.Fragment
+import com.example.tenminutestest2.R
 
 class SportTabFragment:Fragment() {
     override fun onCreateView(

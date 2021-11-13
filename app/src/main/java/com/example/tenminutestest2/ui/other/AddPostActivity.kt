@@ -1,4 +1,4 @@
-package com.example.tenminutestest2
+package com.example.tenminutestest2.ui.other
 
 import android.app.Activity
 import android.content.Intent
@@ -6,10 +6,12 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
+import com.example.tenminutestest2.R
+import com.example.tenminutestest2.logic.model.PostFromServer
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -149,13 +151,21 @@ class AddPostActivity : AppCompatActivity() {
                     .url("http://120.24.191.82:8080/PostOfArts/add")
                     .post(requestBody)
                     .build()
-                client.newCall(request).execute()
-
+                val response= client.newCall(request).execute()
+                val responseData=response.body?.toString()
+                if(responseData!=null){
+                parseJSON(responseData)
+                }
             }catch (e: Exception){
                 e.printStackTrace()
             }
         }
 
+    }
+    private fun parseJSON(jsonData:String){
+        val gson=Gson()
+        val data=gson.fromJson(jsonData, PostFromServer::class.java)
+        Log.d("AddPostActivity",data.message)
     }
 
 

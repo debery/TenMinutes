@@ -1,7 +1,5 @@
-package com.example.tenminutestest2
+package com.example.tenminutestest2.ui.mainactivity.adapter
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +8,12 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tenminutestest2.MyApplication
+import com.example.tenminutestest2.R
+import com.example.tenminutestest2.logic.model.Post
+import com.example.tenminutestest2.ui.other.PictureShowActivity
+import com.example.tenminutestest2.ui.other.PostDetailsActivity
 
 class PostAdapter(val postList: List<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
@@ -87,7 +89,8 @@ class PostAdapter(val postList: List<Post>): RecyclerView.Adapter<PostAdapter.Vi
 
         holder.agreedLayout.setOnClickListener{
             post.agreedCount++/* 待修改，应设置为每个用户只生效1次*/
-            holder.agreedIcon.setBackgroundResource(R.drawable.dianzan_fill
+            holder.agreedIcon.setBackgroundResource(
+                R.drawable.dianzan_fill
             )
             holder.dianzan.text="${post.agreedCount}"
         }
@@ -119,7 +122,7 @@ class PostAdapter(val postList: List<Post>): RecyclerView.Adapter<PostAdapter.Vi
 
     override fun getItemCount() = postList.size
 
-    private fun clickPicture(post:Post,i:Int){
+    private fun clickPicture(post: Post, i:Int){
         val intent = Intent(MyApplication.context, PictureShowActivity::class.java)
         intent.putExtra("post_data", post)
         intent.putExtra("show_position",i)
