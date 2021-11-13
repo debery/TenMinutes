@@ -159,6 +159,4 @@ class AddPostActivity : AppCompatActivity() {
     }
 
 
-
-
 }

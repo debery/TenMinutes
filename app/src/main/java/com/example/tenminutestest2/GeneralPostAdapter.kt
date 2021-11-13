@@ -57,7 +57,7 @@ class GeneralPostAdapter(val postList:List<PostB>):RecyclerView.Adapter<GeneralP
     override fun onBindViewHolder(holder: GeneralPostAdapter.ViewHolder, position: Int) {
         val post=postList[position]
         holder.nickname.text=post.nickname
-        if(post.user_avatar!=null)Glide.with(MyApplication.context).load(Uri.parse(post.user_avatar)).into(holder.userAvatar)
+        //if(post.user_avatar!=null)Glide.with(MyApplication.context).load(Uri.parse(post.user_avatar)).into(holder.userAvatar)
         holder.postTitle.text=post.post_title
         holder.content.text=post.content
     }
