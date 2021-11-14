@@ -18,7 +18,7 @@ import com.example.tenminutestest2.ui.other.SearchActivity
 import java.io.File
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private var teachTabFragment: TeachTabFragment?= null
     private var drawTabFragment: DrawTabFragment?= null
@@ -30,17 +30,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var outputImage:File
     lateinit var imageUri: Uri
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        supportActionBar?.hide()
 
         //教技、画技、体育、热榜、我的
-        val btnTeach: Button =findViewById(R.id.btnTeach)
-        val btnDraw:Button=findViewById(R.id.btnDraw)
-        val btnSport:Button=findViewById(R.id.btnSport)
-        val btnUser:Button=findViewById(R.id.btnUser)
-        val btnHot:Button=findViewById(R.id.btnHot)
 
         //搜索、通知、添加
         val btnSearch:Button=findViewById(R.id.btnSearch)
@@ -54,29 +50,7 @@ class MainActivity : AppCompatActivity() {
         //将选定的图标与文字变色，1、2、3、4、5分别是教技、绘画、体育、用户、热门（新加的）
         changeIconAndText(1)
         //主界面切换点击事件
-        btnTeach.setOnClickListener {
-            showFragment(teachTabFragment!!)
-            changeIconAndText(1)
-
-        }
-        btnDraw.setOnClickListener {
-            showFragment(drawTabFragment!!)
-            changeIconAndText(2)
-
-        }
-        btnSport.setOnClickListener {
-            showFragment(sportTabFragment!!)
-            changeIconAndText(3)
-
-        }
-        btnUser.setOnClickListener {
-            showFragment(userTabFragment!!)
-            changeIconAndText(4)
-        }
-        btnHot.setOnClickListener {
-            showFragment(hotTabFragment!!)
-            changeIconAndText(5)
-        }
+        setClickEvent()
 
         //弹出popupWindow
 
@@ -91,9 +65,90 @@ class MainActivity : AppCompatActivity() {
             val intent=Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
-
     }
+    private fun setClickEvent(){
 
+        val tabTeach:LinearLayout=findViewById(R.id.tabTeach)
+        val tabArt:LinearLayout=findViewById(R.id.tabArt)
+        val tabSport:LinearLayout=findViewById(R.id.tabSport)
+        val tabHot:LinearLayout=findViewById(R.id.tabHot)
+        val tabMine:LinearLayout=findViewById(R.id.tabMine)
+        val btnTeach:Button =findViewById(R.id.btnTeach)
+        val btnArt:Button=findViewById(R.id.btnArt)
+        val btnSport:Button=findViewById(R.id.btnSport)
+        val btnMine:Button=findViewById(R.id.btnMine)
+        val btnHot:Button=findViewById(R.id.btnHot)
+        val textTeach:TextView=findViewById(R.id.textTeach)
+        val textArt:TextView=findViewById(R.id.textArt)
+        val textSport :TextView=findViewById(R.id.textSport)
+        val textMine :TextView=findViewById(R.id.textMine)
+        val textHot:TextView=findViewById(R.id.textHot)
+        //教技
+        tabTeach.setOnClickListener {
+            showFragment(teachTabFragment!!)
+            changeIconAndText(1)
+        }
+        btnTeach.setOnClickListener {
+            showFragment(teachTabFragment!!)
+            changeIconAndText(1)
+        }
+        textTeach.setOnClickListener {
+            showFragment(teachTabFragment!!)
+            changeIconAndText(1)
+        }
+        //艺术
+        tabArt.setOnClickListener {
+            showFragment(drawTabFragment!!)
+            changeIconAndText(2)
+        }
+        btnArt.setOnClickListener {
+            showFragment(drawTabFragment!!)
+            changeIconAndText(2)
+        }
+        textArt.setOnClickListener {
+            showFragment(drawTabFragment!!)
+            changeIconAndText(2)
+        }
+        //体育
+        tabSport.setOnClickListener {
+            showFragment(sportTabFragment!!)
+            changeIconAndText(3)
+        }
+        btnSport.setOnClickListener {
+            showFragment(sportTabFragment!!)
+            changeIconAndText(3)
+        }
+        textSport.setOnClickListener {
+            showFragment(sportTabFragment!!)
+            changeIconAndText(3)
+        }
+        //热榜
+        tabHot.setOnClickListener {
+            showFragment(hotTabFragment!!)
+            changeIconAndText(5)
+        }
+        btnHot.setOnClickListener {
+            showFragment(hotTabFragment!!)
+            changeIconAndText(5)
+        }
+        textHot.setOnClickListener {
+            showFragment(hotTabFragment!!)
+            changeIconAndText(5)
+        }
+        //我的
+        tabMine.setOnClickListener {
+            showFragment(userTabFragment!!)
+            changeIconAndText(4)
+        }
+        btnMine.setOnClickListener {
+            showFragment(userTabFragment!!)
+            changeIconAndText(4)
+        }
+        textMine.setOnClickListener {
+            showFragment(userTabFragment!!)
+            changeIconAndText(4)
+        }
+    }
 
 
     //隐藏所有fragment，用在showFragment前
@@ -154,47 +209,46 @@ class MainActivity : AppCompatActivity() {
     //重置Icon与Text
     private fun reshowIcon(){
         val btnTeach: Button =findViewById(R.id.btnTeach)
-        val btnDraw:Button=findViewById(R.id.btnDraw)
+        val btnArt:Button=findViewById(R.id.btnArt)
         val btnSport:Button=findViewById(R.id.btnSport)
-        val btnUser:Button=findViewById(R.id.btnUser)
+        val btnMine:Button=findViewById(R.id.btnMine)
         val btnHot:Button=findViewById(R.id.btnHot)
 
         btnTeach.setBackgroundResource(R.drawable.jiaoshi)
-        btnDraw.setBackgroundResource(R.drawable.meishu)
+        btnArt.setBackgroundResource(R.drawable.meishu)
         btnSport.setBackgroundResource(R.drawable.yundong)
-        btnUser.setBackgroundResource(R.drawable.yonghu)
+        btnMine.setBackgroundResource(R.drawable.yonghu)
         btnHot.setBackgroundResource(R.drawable.hot)
     }
     private fun reshowText(){
+
         val textTeach:TextView=findViewById(R.id.textTeach)
-        val textDraw:TextView=findViewById(R.id.textDraw)
+        val textArt:TextView=findViewById(R.id.textArt)
         val textSport :TextView=findViewById(R.id.textSport)
-        val textUser :TextView=findViewById(R.id.textUser)
+        val textMine :TextView=findViewById(R.id.textMine)
         val textHot:TextView=findViewById(R.id.textHot)
 
         textTeach.setTextColor(Color.parseColor("#000000"))
-        textDraw.setTextColor(Color.parseColor("#000000"))
+        textArt.setTextColor(Color.parseColor("#000000"))
         textSport.setTextColor(Color.parseColor("#000000"))
-        textUser.setTextColor(Color.parseColor("#000000"))
+        textMine.setTextColor(Color.parseColor("#000000"))
         textHot.setTextColor(Color.parseColor("#000000"))
     }
 
 
     private fun changeIconAndText(request:Int){
 
-        val btnTeach: Button =findViewById(R.id.btnTeach)
-        val btnDraw:Button=findViewById(R.id.btnDraw)
-        val btnSport:Button=findViewById(R.id.btnSport)
-        val btnUser:Button=findViewById(R.id.btnUser)
-        val btnHot:Button=findViewById(R.id.btnHot)
-
-        val textTeach:TextView=findViewById(R.id.textTeach)
-        val textDraw:TextView=findViewById(R.id.textDraw)
-        val textSport :TextView=findViewById(R.id.textSport)
-        val textUser :TextView=findViewById(R.id.textUser)
-        val textHot:TextView=findViewById(R.id.textHot)
-
         val topLayout:LinearLayout=findViewById(R.id.top_layout)
+        val btnTeach: Button =findViewById(R.id.btnTeach)
+        val btnArt:Button=findViewById(R.id.btnArt)
+        val btnSport:Button=findViewById(R.id.btnSport)
+        val btnMine:Button=findViewById(R.id.btnMine)
+        val btnHot:Button=findViewById(R.id.btnHot)
+        val textTeach:TextView=findViewById(R.id.textTeach)
+        val textArt:TextView=findViewById(R.id.textArt)
+        val textSport :TextView=findViewById(R.id.textSport)
+        val textMine :TextView=findViewById(R.id.textMine)
+        val textHot:TextView=findViewById(R.id.textHot)
 
         //额外设置将用户界面的topLayout隐藏或显示
         when(request){
@@ -206,8 +260,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             2->{
-                btnDraw.setBackgroundResource(R.drawable.draw_fill)
-                textDraw.setTextColor(Color.parseColor("#6E9D4E"))
+                btnArt.setBackgroundResource(R.drawable.draw_fill)
+                textArt.setTextColor(Color.parseColor("#6E9D4E"))
                 if(topLayout.visibility== View.GONE){
                     topLayout.visibility=View.VISIBLE
                 }
@@ -220,8 +274,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             4->{
-                btnUser.setBackgroundResource(R.drawable.user_fill)
-                textUser.setTextColor(Color.parseColor("#6E9D4E"))
+                btnMine.setBackgroundResource(R.drawable.user_fill)
+                textMine.setTextColor(Color.parseColor("#6E9D4E"))
                 if(topLayout.visibility!= View.GONE){
                     topLayout.visibility=View.GONE
                 }

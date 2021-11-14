@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
+import com.example.tenminutestest2.BaseActivity
 import com.example.tenminutestest2.R
 import com.example.tenminutestest2.logic.model.PostFromServer
 import com.google.gson.Gson
@@ -18,12 +19,11 @@ import okhttp3.Request
 import java.lang.Exception
 import kotlin.concurrent.thread
 
-class AddPostActivity : AppCompatActivity() {
+class AddPostActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
-        supportActionBar?.hide()
         val btnFinish:ImageView=findViewById(R.id.btnAddPostActivityFinish)
         val choosePlace:LinearLayout=findViewById(R.id.addPostActivityPlaceLayout)
         val picture1:ImageView=findViewById(R.id.picture1)

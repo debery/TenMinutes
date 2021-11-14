@@ -13,7 +13,7 @@ import com.example.tenminutestest2.MyApplication
 import com.example.tenminutestest2.R
 import com.example.tenminutestest2.logic.model.Post
 import com.example.tenminutestest2.ui.other.PictureShowActivity
-import com.example.tenminutestest2.ui.other.PostDetailsActivity
+import com.example.tenminutestest2.ui.other.postclick.PostDetailsActivity
 
 class PostAdapter(val postList: List<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 

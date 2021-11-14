@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.example.tenminutestest2.BaseActivity
 import com.example.tenminutestest2.MyApplication
 import com.example.tenminutestest2.R
 import com.example.tenminutestest2.logic.model.Post
 
-class PictureShowActivity : AppCompatActivity() {
+class PictureShowActivity : BaseActivity() {
 
     private val dataList:ArrayList<Int> = ArrayList<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_picture_show)
-        supportActionBar?.hide()
         //获取数据
         val post=intent.getSerializableExtra("post_data") as Post
         initDataList(post)

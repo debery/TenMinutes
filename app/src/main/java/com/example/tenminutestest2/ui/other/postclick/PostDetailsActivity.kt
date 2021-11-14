@@ -1,4 +1,4 @@
-package com.example.tenminutestest2.ui.other
+package com.example.tenminutestest2.ui.other.postclick
 
 
 import android.os.Bundle
@@ -11,14 +11,14 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tenminutestest2.BaseActivity
 import com.example.tenminutestest2.R
 import com.example.tenminutestest2.logic.model.Post
 import com.example.tenminutestest2.logic.model.Reply
-import com.example.tenminutestest2.ui.mainactivity.adapter.ReplyAdapter
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PostDetailsActivity:AppCompatActivity() {
+class PostDetailsActivity:BaseActivity() {
 
     private var replyList:ArrayList<Reply>?=null
 
@@ -26,7 +26,6 @@ class PostDetailsActivity:AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_details)
-        supportActionBar?.hide()
         //加载帖子与回复
         initPostAndReply()
         //回复的点击事件

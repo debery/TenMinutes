@@ -16,13 +16,23 @@
             android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             />
-        <TextView
-            android:id="@+id/userNameText"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Hello,World"
-            android:textSize="17dp"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/userNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello,World"
+                android:textSize="17sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2000-01-01"
+                android:textSize="13sp"/>
+        </LinearLayout>
 
     </LinearLayout>
     <TextView
@@ -134,8 +144,10 @@
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1.5">
             <Button
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
                 android:id="@+id/agreeIcon"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
@@ -158,8 +170,10 @@
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1.5">
             <Button
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
                 android:id="@+id/commentIcon"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
@@ -178,10 +192,7 @@
             android:layout_weight="1"/>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"

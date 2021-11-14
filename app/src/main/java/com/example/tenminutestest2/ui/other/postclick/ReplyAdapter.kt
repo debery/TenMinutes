@@ -1,4 +1,4 @@
-package com.example.tenminutestest2.ui.mainactivity.adapter
+package com.example.tenminutestest2.ui.other.postclick
 
 import android.view.LayoutInflater
 import android.view.View

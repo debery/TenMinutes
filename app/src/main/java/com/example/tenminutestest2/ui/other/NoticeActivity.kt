@@ -8,13 +8,13 @@ import android.widget.LinearLayout
 
 import android.widget.ListView
 import android.widget.TextView
+import com.example.tenminutestest2.BaseActivity
 
-class NoticeActivity : AppCompatActivity() {
+class NoticeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice)
-        supportActionBar?.hide()
 
         val finish:Button=findViewById(R.id.noticeActivityFinish)
         val mentionA:LinearLayout=findViewById(R.id.noticeActivityMention)
