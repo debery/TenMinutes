@@ -2,7 +2,7 @@ package com.example.tenminutestest2.logic.model
 
 import java.io.Serializable
 
-class PostFromServer (val success:Boolean,val message:String,val code:String,val items:List<PostB>)
+class ResponseFromServer (val success:Boolean,val message:String,val code:String,val items:List<PostB>)
 
 class PostB(val post_id:Int,val nickname:String,val user_avatar:String?=null,val post_title:String,val content:String,
             val picture_1:String?=null,val picture_2:String?=null,val picture_3:String?=null,

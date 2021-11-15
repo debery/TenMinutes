@@ -31,7 +31,7 @@
         android:layout_marginEnd="10dp"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/gray"/>
+        android:background="@color/background"/>
     <EditText
         android:id="@+id/printTitle"
         android:layout_marginLeft="15dp"
@@ -138,15 +138,15 @@
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray"/>
+        android:background="@color/background"/>
     <LinearLayout
         android:id="@+id/addPostActivityPlaceLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_width="wrap_content"
@@ -174,15 +174,15 @@
         android:layout_marginEnd="10dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray"/>
+        android:background="@color/background"/>
     <LinearLayout
         android:id="@+id/addPostActivityLocationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_width="32dp"

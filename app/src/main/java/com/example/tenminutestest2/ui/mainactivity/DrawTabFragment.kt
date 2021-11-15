@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tenminutestest2.R
 import com.example.tenminutestest2.logic.model.PostB
-import com.example.tenminutestest2.logic.model.PostFromServer
+import com.example.tenminutestest2.logic.model.ResponseFromServer
 import com.example.tenminutestest2.ui.mainactivity.adapter.GeneralPostAdapter
 import com.google.gson.Gson
 import okhttp3.FormBody
@@ -81,10 +81,9 @@ class DrawTabFragment: Fragment() {
     private fun parseJSON(jsonData:String){
         try {
             val gson= Gson()
-            val postFromServer =gson.fromJson(jsonData, PostFromServer::class.java)
+            val postFromServer =gson.fromJson(jsonData, ResponseFromServer::class.java)
             //val list=gson.fromJson<List<PostB>>(postFromServer.items.toString(),object :TypeToken<List<PostB>>(){}.type)
-            postBList.add(postFromServer.items.elementAt(0))
-            postBList.add(postFromServer.items.elementAt(1))
+            postBList.addAll(postFromServer.items)
             Log.d("wwwwwww","${postFromServer.success}")
             Log.d("wwwwwww","${postFromServer.items}")
 

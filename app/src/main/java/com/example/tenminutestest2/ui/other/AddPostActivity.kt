@@ -11,11 +11,14 @@ import android.view.*
 import android.widget.*
 import com.example.tenminutestest2.BaseActivity
 import com.example.tenminutestest2.R
-import com.example.tenminutestest2.logic.model.PostFromServer
+import com.example.tenminutestest2.logic.model.PostB
+import com.example.tenminutestest2.logic.model.ResponseFromServer
+import com.example.tenminutestest2.logic.network.PostService
+import com.example.tenminutestest2.logic.network.ServiceCreator
 import com.google.gson.Gson
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.lang.Exception
 import kotlin.concurrent.thread
 
@@ -139,34 +142,24 @@ class AddPostActivity : BaseActivity() {
     private fun postArtsAdd(){
         val printTitle:EditText=findViewById(R.id.printTitle)
         val printContent:EditText=findViewById(R.id.printContent)
-        thread {
-            try{
-                val requestBody= FormBody.Builder()
-                    .add("nickname","测试员1号")
-                    .add("post_title",printTitle.text.toString())
-                    .add("content",printContent.text.toString())
-                    .build()
-                val client= OkHttpClient()
-                val request= Request.Builder()
-                    .url("http://120.24.191.82:8080/PostOfArts/add")
-                    .post(requestBody)
-                    .build()
-                val response= client.newCall(request).execute()
-                val responseData=response.body?.toString()
-                if(responseData!=null){
-                parseJSON(responseData)
-                }
-            }catch (e: Exception){
-                e.printStackTrace()
+        val postService=ServiceCreator.create(PostService::class.java)
+
+        val post=PostB(12121,"测试账号",post_title = "${printTitle.text}",content = "${printContent.text}")
+        postService.addPostOfArts(post).enqueue(object : Callback<ResponseFromServer> {
+            override fun onResponse(
+                call: Call<ResponseFromServer>,
+                response: Response<ResponseFromServer>
+            ) {
+                val resp:ResponseFromServer?=response.body()
+                Log.d("AddPostActivity", resp?.message.toString())
             }
-        }
+
+            override fun onFailure(call: Call<ResponseFromServer>, t: Throwable) {
+                t.printStackTrace()
+            }
+
+        })
 
     }
-    private fun parseJSON(jsonData:String){
-        val gson=Gson()
-        val data=gson.fromJson(jsonData, PostFromServer::class.java)
-        Log.d("AddPostActivity",data.message)
-    }
-
 
 }
