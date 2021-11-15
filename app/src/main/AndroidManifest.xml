@@ -23,7 +23,7 @@
             android:name=".ui.other.PictureShowActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.other.postclick.PostDetailsActivity" />
+        <activity android:name=".ui.other.PostDetail.PostDetailsActivity" />
         <activity android:name=".ui.other.NoticeActivity" />
 
         <provider

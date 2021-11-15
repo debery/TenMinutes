@@ -1,11 +1,9 @@
 package com.example.tenminutestest2.ui.other
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.example.tenminutestest2.BaseActivity
@@ -34,7 +32,7 @@ class PictureShowActivity : BaseActivity() {
 
             override fun instantiateItem(container: ViewGroup, position: Int): Any {
                 //在子项布局进行操作
-                val view=View.inflate(MyApplication.context, R.layout.picture_pager_item,null)
+                val view=View.inflate(MyApplication.context, R.layout.item_picture_pager,null)
                 val image:ImageView=view.findViewById(R.id.pagerItem)
                 //点击退出
                 image.setOnClickListener {

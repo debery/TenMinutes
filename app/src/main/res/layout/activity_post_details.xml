@@ -11,7 +11,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <include layout="@layout/post_item"/>
+            <include layout="@layout/item_post"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"

@@ -1,4 +1,4 @@
-package com.example.tenminutestest2.ui.other.postclick
+package com.example.tenminutestest2.ui.other.PostDetail
 
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +19,7 @@ class ReplyAdapter(val replyList: List<Reply>):RecyclerView.Adapter<ReplyAdapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view=LayoutInflater.from(parent.context).inflate(R.layout.reply_item,parent,false)
+        val view=LayoutInflater.from(parent.context).inflate(R.layout.item_reply,parent,false)
         return ViewHolder(view)
     }
 

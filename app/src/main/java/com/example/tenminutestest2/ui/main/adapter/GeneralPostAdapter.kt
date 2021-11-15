@@ -1,4 +1,4 @@
-package com.example.tenminutestest2.ui.mainactivity.adapter
+package com.example.tenminutestest2.ui.main.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +49,7 @@ class GeneralPostAdapter(val postList:List<PostB>):RecyclerView.Adapter<GeneralP
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val view= LayoutInflater.from(parent.context).inflate(R.layout.post_item,parent,false)
+        val view= LayoutInflater.from(parent.context).inflate(R.layout.item_post,parent,false)
         return ViewHolder(view)
     }
 

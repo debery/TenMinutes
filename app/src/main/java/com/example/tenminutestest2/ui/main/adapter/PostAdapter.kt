@@ -1,4 +1,4 @@
-package com.example.tenminutestest2.ui.mainactivity.adapter
+package com.example.tenminutestest2.ui.main.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.example.tenminutestest2.MyApplication
 import com.example.tenminutestest2.R
 import com.example.tenminutestest2.logic.model.Post
 import com.example.tenminutestest2.ui.other.PictureShowActivity
-import com.example.tenminutestest2.ui.other.postclick.PostDetailsActivity
+import com.example.tenminutestest2.ui.other.PostDetail.PostDetailsActivity
 
 class PostAdapter(val postList: List<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
@@ -47,7 +47,7 @@ class PostAdapter(val postList: List<Post>): RecyclerView.Adapter<PostAdapter.Vi
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view=LayoutInflater.from(parent.context).inflate(R.layout.post_item,parent,false)
+        val view=LayoutInflater.from(parent.context).inflate(R.layout.item_post,parent,false)
         return ViewHolder(view)
     }
 
@@ -88,6 +88,13 @@ class PostAdapter(val postList: List<Post>): RecyclerView.Adapter<PostAdapter.Vi
         }
 
         holder.agreedLayout.setOnClickListener{
+            post.agreedCount++/* 待修改，应设置为每个用户只生效1次*/
+            holder.agreedIcon.setBackgroundResource(
+                R.drawable.dianzan_fill
+            )
+            holder.dianzan.text="${post.agreedCount}"
+        }
+        holder.agreedIcon.setOnClickListener{
             post.agreedCount++/* 待修改，应设置为每个用户只生效1次*/
             holder.agreedIcon.setBackgroundResource(
                 R.drawable.dianzan_fill

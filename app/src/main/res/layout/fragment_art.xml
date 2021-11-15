@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/top_layout"/>
+
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"

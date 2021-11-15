@@ -13,4 +13,7 @@ interface PostService {
 
     @POST("PostOfArts/add")
     fun addPostOfArts(@Body post:PostB): Call<ResponseFromServer>
+
+    @POST("PostOfArts/list")
+    fun listPostOfArts():Call<ResponseFromServer>
 }

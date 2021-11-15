@@ -1,4 +1,4 @@
-package com.example.tenminutestest2.ui.other.postclick
+package com.example.tenminutestest2.ui.other.PostDetail
 
 
 import android.os.Bundle
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tenminutestest2.BaseActivity
@@ -49,7 +48,7 @@ class PostDetailsActivity:BaseActivity() {
 
     //弹出回复帖子的popupWindow
     private fun popupWindowToReply(){
-        val contentView=LayoutInflater.from(this).inflate(R.layout.add_post_reply_pop,null)
+        val contentView=LayoutInflater.from(this).inflate(R.layout.pop_reply,null)
         val popupWindow=PopupWindow(contentView,
             ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
         popupWindow.isFocusable=true

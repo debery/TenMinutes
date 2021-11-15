@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -15,12 +14,9 @@ import com.example.tenminutestest2.logic.model.PostB
 import com.example.tenminutestest2.logic.model.ResponseFromServer
 import com.example.tenminutestest2.logic.network.PostService
 import com.example.tenminutestest2.logic.network.ServiceCreator
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
-import kotlin.concurrent.thread
 
 class AddPostActivity : BaseActivity() {
 
@@ -49,7 +45,7 @@ class AddPostActivity : BaseActivity() {
     }
 
     private fun showPlacePopWindow(){
-        val contentView= LayoutInflater.from(this).inflate(R.layout.add_post_place_pop,null)
+        val contentView= LayoutInflater.from(this).inflate(R.layout.pop_select_place,null)
         val popupWindow= PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         popupWindow.isFocusable=true
         popupWindow.setBackgroundDrawable(ColorDrawable(0x800000))
@@ -79,7 +75,7 @@ class AddPostActivity : BaseActivity() {
     //弹窗的控制代码
     private fun showPicturePopWindow(){
 
-        val contentView= LayoutInflater.from(this).inflate(R.layout.add_post_picture_pop,null)
+        val contentView= LayoutInflater.from(this).inflate(R.layout.pop_add_picture,null)
         val popupWindow= PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         popupWindow.isFocusable=true
         popupWindow.setBackgroundDrawable(ColorDrawable(0x800000))
