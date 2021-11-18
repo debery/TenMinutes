@@ -78,7 +78,7 @@ class PostAdapter(val postList: List<Post>): RecyclerView.Adapter<PostAdapter.Vi
             }
         }
 
-        //迪点击监听
+        //点击监听
 
         holder.itemView.setOnClickListener {
             val intent = Intent(MyApplication.context, PostDetailsActivity::class.java)

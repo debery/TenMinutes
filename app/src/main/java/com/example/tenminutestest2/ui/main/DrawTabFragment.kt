@@ -82,42 +82,7 @@ class DrawTabFragment: Fragment() {
     }
 
 
-    //使用okhttp调用接口
-    /*private fun postArtsList(){
-        thread {
-            try{
-                val requestBody=FormBody.Builder().build()
-                val client=OkHttpClient()
-                val request=Request.Builder()
-                    .url("http://120.24.191.82:8080/PostOfArts/list")
-                    .post(requestBody)
-                    .build()
-                val response=client.newCall(request).execute()
-                val responseData=response.body?.string()
-                if(responseData!=null){
-                    parseJSON(responseData)
-                }
-            }catch (e:Exception){
-                e.printStackTrace()
-            }
-        }
-    }
 
-    //解析接口返回的JSON数据
-    private fun parseJSON(jsonData:String){
-        try {
-            val gson= Gson()
-            val postFromServer =gson.fromJson(jsonData, ResponseFromServer::class.java)
-            //val list=gson.fromJson<List<PostB>>(postFromServer.items.toString(),object :TypeToken<List<PostB>>(){}.type)
-            postBList.addAll(postFromServer.items)
-            Log.d("wwwwwww","${postFromServer.success}")
-            Log.d("wwwwwww","${postFromServer.items}")
-
-        }catch (e:Exception){
-            e.printStackTrace()
-        }
-    }
-      */
     private fun postArtsList(){
         val postService=ServiceCreator.create(PostService::class.java)//获取动态代理
         postService.listPostOfArts().enqueue(object : Callback<ResponseFromServer>{
@@ -126,7 +91,15 @@ class DrawTabFragment: Fragment() {
                 response: Response<ResponseFromServer>
             ) {
                 Log.d("MainActivity","message is "+response.body()?.code)
+                val list=response.body()?.items
+                if (list != null) {
+                    for(post in list){
+                        Log.d("picture","nickname is "+post.nickname)
+                        Log.d("picture","picture is "+post.picture_1)
+                    }
+                }
                 postBList.addAll(response.body()?.items!!)
+
             }
 
             override fun onFailure(call: Call<ResponseFromServer>, t: Throwable) {

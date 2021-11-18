@@ -4,10 +4,17 @@ import java.io.Serializable
 
 class ResponseFromServer (val success:Boolean,val message:String,val code:String,val items:List<PostB>)
 
-class PostB(val post_id:Int,val nickname:String,val user_avatar:String?=null,val post_title:String,val content:String,
-            val picture_1:String?=null,val picture_2:String?=null,val picture_3:String?=null,
-            val picture_4:String?=null, val picture_5:String?=null,val picture_6:String?=null,
-            val time:String?=null,val goods:Int=0,val remarks:Int=0)
+class PostB(val post_id:Int, val nickname:String, val user_avatar:String?=null, val post_title:String, val content:String,
+            var picture_1:String?=null, var picture_2:String?=null, var picture_3:String?=null,
+            var picture_4:String?=null, var picture_5:String?=null, var picture_6:String?=null,
+            val time:String?=null,
+            var goods:Int=0, val replys:Int=0):Serializable
+
+class PostUp(val nickname:String, val user_avatar:String?=null, val post_title:String, val content:String,
+            var picture_1:String?=null, var picture_2:String?=null, var picture_3:String?=null,
+            var picture_4:String?=null, var picture_5:String?=null, var picture_6:String?=null,
+            val time:String?=null,
+            var goods:Int=0, val replys:Int=0):Serializable
 
 //帖子id、用户名称、用户头像的图片的id，帖子标题、评论内容、六个图片的id（默认无）、点赞数、回复数、回复的集合
 //旧有测试类
