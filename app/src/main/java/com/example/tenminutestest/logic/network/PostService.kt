@@ -1,5 +1,6 @@
 package com.example.tenminutestest.logic.network
 
+import com.example.tenminutestest.logic.model.PostB
 import retrofit2.Call
 import com.example.tenminutestest.logic.model.PostUp
 import com.example.tenminutestest.logic.model.ResponseFromServer
@@ -28,10 +29,10 @@ interface PostService {
 
     //delete
     @POST("PostOfTeaching/delete")
-    fun deletePostOfTeaching(@Body id:Int):Call<ResponseFromServer>
+    fun deletePostOfTeaching(@Body post: PostB):Call<ResponseFromServer>
     @POST("PostOfArts/delete")
-    fun deletePostOfArts(@Body id:Int):Call<ResponseFromServer>
+    fun deletePostOfArts(@Body post: PostB):Call<ResponseFromServer>
     @POST("PostOfSport/delete")
-    fun deletePostOfSport(@Body id:Int):Call<ResponseFromServer>
+    fun deletePostOfSport(@Body post: PostB):Call<ResponseFromServer>
 
 }

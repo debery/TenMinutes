@@ -150,7 +150,9 @@ public class LogActivity extends BaseActivity {        //要连接的数据库ur
 
                             Toast.makeText(getApplicationContext(), "登陆成功", Toast.LENGTH_SHORT).show();
                             String edit_name=U_id.getString("user_id");
+
                             Intent intent=new Intent(LogActivity.this, MainActivity.class);
+                            intent.putExtra("zhanghao",edit_name);
                             startActivity(intent);
                             if(User_IO.saveinfos(edit_id,edit_password,edit_name,LogActivity.this)){
                                 System.out.println("写入成功");

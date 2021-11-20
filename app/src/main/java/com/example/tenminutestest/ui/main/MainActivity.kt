@@ -27,8 +27,15 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         //跳转到登录界面
-        val intent= Intent(this,LogActivity::class.java)
-        startActivity(intent)
+
+        /*崩溃，暂时用不了
+        **
+        if(User_IO.get_userinfos(this)==null){
+            val intent= Intent(this,LogActivity::class.java)
+            startActivity(intent)
+        }
+        **
+         */
 
         //初始化布局，将fragment创建，add并hide
         initFragment()

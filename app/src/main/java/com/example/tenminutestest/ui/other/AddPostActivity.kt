@@ -81,11 +81,13 @@ class AddPostActivity : BaseActivity() {
             showPlacePopWindow()
         }
         deliver.setOnClickListener {
-            if(printTitle.text.length>=4){
-                postAdd()
-                finish()
+            if(printTitle.text.length<4){
+                Toast.makeText(this,"标题长度小于四个字符",Toast.LENGTH_SHORT).show()
+
+            }else if(printTitle.text.length>30){
+                Toast.makeText(this,"标题长度不可大于三十个字",Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(this,"标题不可小于四个字符",Toast.LENGTH_SHORT).show()
+                postAdd()
             }
 
         }
@@ -416,6 +418,7 @@ class AddPostActivity : BaseActivity() {
                                 val data:ResponseFromServer?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
                                 Log.d("AddPostActivity", data?.code.toString())
+                                finish()
                             }
 
                             override fun onFailure(call: Call<ResponseFromServer>, t: Throwable) {
@@ -433,6 +436,7 @@ class AddPostActivity : BaseActivity() {
                                 val data:ResponseFromServer?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
                                 Log.d("AddPostActivity", data?.code.toString())
+                                finish()
                             }
 
                             override fun onFailure(call: Call<ResponseFromServer>, t: Throwable) {
@@ -451,6 +455,7 @@ class AddPostActivity : BaseActivity() {
                                 val data:ResponseFromServer?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
                                 Log.d("AddPostActivity", data?.code.toString())
+                                finish()
                             }
 
                             override fun onFailure(call: Call<ResponseFromServer>, t: Throwable) {

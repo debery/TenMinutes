@@ -93,6 +93,7 @@ class DrawTabFragment: Fragment() {
                     }
                 }
                 postBList.addAll(response.body()?.items!!)
+                postBList.reverse()
 
             }
 
