@@ -162,7 +162,6 @@ public class LogActivity extends BaseActivity {        //要连接的数据库ur
                             else {
                                 System.out.println("写入失败");
                             }
-
                         }
 
                     }connection.close();

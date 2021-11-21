@@ -2,7 +2,7 @@ package com.example.tenminutestest.logic.model
 
 import java.io.Serializable
 
-class ResponseFromServer (val success:Boolean,val message:String,val code:String,val items:List<PostB>)
+class PostResponse (val success:Boolean, val message:String, val code:String, val items:List<PostB>)
 
 class PostB(val post_id:Int, val nickname:String, val user_avatar:String?=null, val post_title:String, val content:String,
             var picture_1:String?=null, var picture_2:String?=null, var picture_3:String?=null,
@@ -21,5 +21,5 @@ class PostUp(val nickname:String, val user_avatar:String?=null, val post_title:S
 class Post (val id:Int,val userName:String,val userHeadId:Int,val postTitle:String,val commentText:String,
             val commentImage1:Int=0,val commentImage2: Int=0,val commentImage3: Int=0,
             val commentImage4:Int=0,val commentImage5: Int=0,val commentImage6: Int=0,
-            var agreedCount:Int=0,var replyCount:Int=0,var replyList: ArrayList<Reply>?=null):
+            var agreedCount:Int=0,var replyCount:Int=0,var commentList: ArrayList<Comment>?=null):
     Serializable

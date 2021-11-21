@@ -1,4 +1,4 @@
-package com.example.tenminutestest.ui.main
+package com.example.tenminutestest.ui.main.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.tenminutestest.R
 
-class UserTabFragment:Fragment() {
+class HotTabFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_mine,container,false)
+        return inflater.inflate(R.layout.fragment_hot,container,false)
     }
-
 }

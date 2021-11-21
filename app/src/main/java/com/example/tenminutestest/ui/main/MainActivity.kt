@@ -1,7 +1,6 @@
 package com.example.tenminutestest.ui.main
 
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -10,8 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.tenminutestest.BaseActivity
 import com.example.tenminutestest.R
-import com.example.tenminutestest.User_IO
-import com.example.tenminutestest.ui.other.log.LogActivity
+import com.example.tenminutestest.ui.main.fragment.*
 
 
 class MainActivity : BaseActivity() {
@@ -28,14 +26,14 @@ class MainActivity : BaseActivity() {
 
         //跳转到登录界面
 
-        /*崩溃，暂时用不了
-        **
-        if(User_IO.get_userinfos(this)==null){
-            val intent= Intent(this,LogActivity::class.java)
-            startActivity(intent)
-        }
-        **
-         */
+//        java.lang.NullPointerException:Attempt to invoke virtual method 'void java.io.FileInputStream.close()'
+//              on a null object reference
+
+//        if(User_IO.get_userinfos(this)==null){
+//            val intent= Intent(this,LogActivity::class.java)
+//            startActivity(intent)
+//        }
+
 
         //初始化布局，将fragment创建，add并hide
         initFragment()

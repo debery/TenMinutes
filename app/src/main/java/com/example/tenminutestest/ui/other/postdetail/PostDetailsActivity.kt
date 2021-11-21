@@ -1,4 +1,4 @@
-package com.example.tenminutestest.ui.other.PostDetail
+package com.example.tenminutestest.ui.other.postdetail
 
 
 import android.os.Bundle
@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tenminutestest.BaseActivity
 import com.example.tenminutestest.R
 import com.example.tenminutestest.logic.model.Post
-import com.example.tenminutestest.logic.model.Reply
+import com.example.tenminutestest.logic.model.Comment
 import java.util.*
 import kotlin.collections.ArrayList
 
 class PostDetailsActivity:BaseActivity() {
 
-    private var replyList:ArrayList<Reply>?=null
+    private var commentList:ArrayList<Comment>?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,14 +35,15 @@ class PostDetailsActivity:BaseActivity() {
     }
 
     private fun initPostAndReply(){
+        //从帖子界面接收到post的数据
         val post=intent.getSerializableExtra("post_data") as Post
         initPost(post)
-        replyList=post.replyList
+        commentList=post.commentList
 
-        val replyRecyclerView:RecyclerView=findViewById(R.id.postReplyRecycler)
+        val replyRecyclerView:RecyclerView=findViewById(R.id.commentRecycler)
         replyRecyclerView.layoutManager=LinearLayoutManager(this)
-        if(replyList!=null){
-            replyRecyclerView.adapter= ReplyAdapter(replyList!!)
+        if(commentList!=null){
+            replyRecyclerView.adapter= CommentAdapter(commentList!!)
         }//没有回复的帖子不绑定适配器，以免崩溃
     }
 

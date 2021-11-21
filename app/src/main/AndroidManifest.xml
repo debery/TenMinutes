@@ -43,7 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.tenminutestest.ui.other.PostDetail.PostDetailsActivity" />
+        <activity android:name="com.example.tenminutestest.ui.other.postdetail.PostDetailsActivity" />
         <activity android:name="com.example.tenminutestest.ui.other.NoticeActivity" />
 
         <provider

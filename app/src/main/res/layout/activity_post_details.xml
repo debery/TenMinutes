@@ -18,7 +18,7 @@
                 android:background="#F6F6F6"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:nestedScrollingEnabled="false"
-                android:id="@+id/postReplyRecycler"
+                android:id="@+id/commentRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

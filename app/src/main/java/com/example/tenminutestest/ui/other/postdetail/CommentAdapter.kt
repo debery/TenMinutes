@@ -1,4 +1,4 @@
-package com.example.tenminutestest.ui.other.PostDetail
+package com.example.tenminutestest.ui.other.postdetail
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tenminutestest.R
-import com.example.tenminutestest.logic.model.Reply
+import com.example.tenminutestest.logic.model.Comment
 
-class ReplyAdapter(val replyList: List<Reply>):RecyclerView.Adapter<ReplyAdapter.ViewHolder>() {
+class CommentAdapter(private val commentList: List<Comment>):RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View):RecyclerView.ViewHolder(view){
         val image:ImageView=view.findViewById(R.id.replyImage)
@@ -24,12 +24,13 @@ class ReplyAdapter(val replyList: List<Reply>):RecyclerView.Adapter<ReplyAdapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val reply=replyList[position]
-        holder.image.setImageResource(reply.userHeadId)
-        holder.name.text=reply.userName
-        holder.content.text=reply.content
+        val comment=commentList[position]
+        holder.image.setImageResource(comment.userHeadId)
+        holder.name.text=comment.userName
+        holder.content.text=comment.content
+        holder.floor.text="$position"+"楼"
     }
 
-    override fun getItemCount()=replyList.size
+    override fun getItemCount()=commentList.size
 
 }

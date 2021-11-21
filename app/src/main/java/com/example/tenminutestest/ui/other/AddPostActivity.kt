@@ -12,7 +12,7 @@ import android.view.*
 import android.widget.*
 import com.example.tenminutestest.BaseActivity
 import com.example.tenminutestest.R
-import com.example.tenminutestest.logic.model.ResponseFromServer
+import com.example.tenminutestest.logic.model.PostResponse
 import com.example.tenminutestest.logic.network.PostService
 import com.example.tenminutestest.logic.network.ServiceCreator
 import retrofit2.Call
@@ -288,7 +288,7 @@ class AddPostActivity : BaseActivity() {
     private fun postAdd(){
         val printTitle:EditText=findViewById(R.id.printTitle)
         val printContent:EditText=findViewById(R.id.printContent)
-        var imageMethod:Boolean=false
+        var imageMethod=false
 
 
         //形成帖子
@@ -297,7 +297,7 @@ class AddPostActivity : BaseActivity() {
         //如有图片，上传并将服务器返回的图片地址添加到帖子子里
         if(image1!=File("")){
             imageMethod=uploadImageAndPost(image1,post)
-            uriFile?.let { Log.d("after upload,uriFile", it) }//upload后uri明明变了，但这里还是null，不执行，原因不明
+            uriFile?.let { Log.d("after upload,uriFile", it) }
             Log.d("after upload,picture_1",post.picture_1.toString())
         }
         if(image2!=File("")){
@@ -320,34 +320,36 @@ class AddPostActivity : BaseActivity() {
         if(!imageMethod){
             when(place){
                 teaching->{
-                    postService.addPostOfTeaching(post).enqueue(object : Callback<ResponseFromServer> {
+                    postService.addPostOfTeaching(post).enqueue(object : Callback<PostResponse> {
                         override fun onResponse(
-                            call: Call<ResponseFromServer>,
-                            response: Response<ResponseFromServer>
+                            call: Call<PostResponse>,
+                            response: Response<PostResponse>
                         ) {
-                            val data:ResponseFromServer?=response.body()
+                            val data:PostResponse?=response.body()
                             Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
                             Log.d("AddPostActivity", data?.code.toString())
+                            finish()
                         }
 
-                        override fun onFailure(call: Call<ResponseFromServer>, t: Throwable) {
+                        override fun onFailure(call: Call<PostResponse>, t: Throwable) {
                             t.printStackTrace()
                             Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
                         }
                     })
                 }
                 arts->{
-                    postService.addPostOfArts(post).enqueue(object : Callback<ResponseFromServer> {
+                    postService.addPostOfArts(post).enqueue(object : Callback<PostResponse> {
                         override fun onResponse(
-                            call: Call<ResponseFromServer>,
-                            response: Response<ResponseFromServer>
+                            call: Call<PostResponse>,
+                            response: Response<PostResponse>
                         ) {
-                            val data:ResponseFromServer?=response.body()
+                            val data:PostResponse?=response.body()
                             Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
                             Log.d("AddPostActivity", data?.code.toString())
+                            finish()
                         }
 
-                        override fun onFailure(call: Call<ResponseFromServer>, t: Throwable) {
+                        override fun onFailure(call: Call<PostResponse>, t: Throwable) {
                             t.printStackTrace()
                             Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
                         }
@@ -355,17 +357,18 @@ class AddPostActivity : BaseActivity() {
 
                 }
                 sport->{
-                    postService.addPostOfSport(post).enqueue(object : Callback<ResponseFromServer> {
+                    postService.addPostOfSport(post).enqueue(object : Callback<PostResponse> {
                         override fun onResponse(
-                            call: Call<ResponseFromServer>,
-                            response: Response<ResponseFromServer>
+                            call: Call<PostResponse>,
+                            response: Response<PostResponse>
                         ) {
-                            val data:ResponseFromServer?=response.body()
+                            val data:PostResponse?=response.body()
                             Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
                             Log.d("AddPostActivity", data?.code.toString())
+                            finish()
                         }
 
-                        override fun onFailure(call: Call<ResponseFromServer>, t: Throwable) {
+                        override fun onFailure(call: Call<PostResponse>, t: Throwable) {
                             t.printStackTrace()
                             Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
                         }
@@ -410,36 +413,36 @@ class AddPostActivity : BaseActivity() {
                 if(imageList.size==imageCount)//只执行一次addPost
                 when(place){
                     teaching->{
-                        postService.addPostOfTeaching(post).enqueue(object : Callback<ResponseFromServer> {
+                        postService.addPostOfTeaching(post).enqueue(object : Callback<PostResponse> {
                             override fun onResponse(
-                                call: Call<ResponseFromServer>,
-                                response: Response<ResponseFromServer>
+                                call: Call<PostResponse>,
+                                response: Response<PostResponse>
                             ) {
-                                val data:ResponseFromServer?=response.body()
+                                val data:PostResponse?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
                                 Log.d("AddPostActivity", data?.code.toString())
                                 finish()
                             }
 
-                            override fun onFailure(call: Call<ResponseFromServer>, t: Throwable) {
+                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
                                 t.printStackTrace()
                                 Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
                             }
                         })
                     }
                     arts->{
-                        postService.addPostOfArts(post).enqueue(object : Callback<ResponseFromServer> {
+                        postService.addPostOfArts(post).enqueue(object : Callback<PostResponse> {
                             override fun onResponse(
-                                call: Call<ResponseFromServer>,
-                                response: Response<ResponseFromServer>
+                                call: Call<PostResponse>,
+                                response: Response<PostResponse>
                             ) {
-                                val data:ResponseFromServer?=response.body()
+                                val data:PostResponse?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
                                 Log.d("AddPostActivity", data?.code.toString())
                                 finish()
                             }
 
-                            override fun onFailure(call: Call<ResponseFromServer>, t: Throwable) {
+                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
                                 t.printStackTrace()
                                 Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
                             }
@@ -447,18 +450,18 @@ class AddPostActivity : BaseActivity() {
 
                     }
                     sport->{
-                        postService.addPostOfSport(post).enqueue(object : Callback<ResponseFromServer> {
+                        postService.addPostOfSport(post).enqueue(object : Callback<PostResponse> {
                             override fun onResponse(
-                                call: Call<ResponseFromServer>,
-                                response: Response<ResponseFromServer>
+                                call: Call<PostResponse>,
+                                response: Response<PostResponse>
                             ) {
-                                val data:ResponseFromServer?=response.body()
+                                val data:PostResponse?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
                                 Log.d("AddPostActivity", data?.code.toString())
                                 finish()
                             }
 
-                            override fun onFailure(call: Call<ResponseFromServer>, t: Throwable) {
+                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
                                 t.printStackTrace()
                                 Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
                             }
