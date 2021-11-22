@@ -21,7 +21,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-
 public class LogActivity extends BaseActivity {        //要连接的数据库url,注意：此处连接的应该是服务器上的MySQl的地址
 
     private String url = "jdbc:mysql://120.24.191.82:3306/timeapp?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8";
@@ -114,8 +113,6 @@ public class LogActivity extends BaseActivity {        //要连接的数据库ur
                 // 执行sql查询语句并获取查询信息
                 ResultSet U_id = pre_id.executeQuery();
 
-
-
                 if (edit_id.equals("") || edit_password.equals("")) {
 
                     Toast.makeText(LogActivity.this, "账号或密码不能为空", Toast.LENGTH_SHORT).show();
@@ -127,9 +124,7 @@ public class LogActivity extends BaseActivity {        //要连接的数据库ur
                 U_id.first();
                         if(id_count == 0){
                             Toast.makeText(getApplicationContext(), "账号不存在", Toast.LENGTH_SHORT).show();
-
                         }
-
                    else if (!edit_id.equals(U_id.getString("user_id"))) {
                         if (edit_id.equals("")) {
 
@@ -149,7 +144,7 @@ public class LogActivity extends BaseActivity {        //要连接的数据库ur
                         } else {
 
                             Toast.makeText(getApplicationContext(), "登陆成功", Toast.LENGTH_SHORT).show();
-                            String edit_name=U_id.getString("user_id");
+                            String edit_name=U_id.getString("user_name");
 
                             Intent intent=new Intent(LogActivity.this, MainActivity.class);
                             intent.putExtra("zhanghao",edit_name);

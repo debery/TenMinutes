@@ -2,6 +2,7 @@ package com.example.tenminutestest.ui.other.postdetail
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.tenminutestest.BaseActivity
 import com.example.tenminutestest.MyApplication
 import com.example.tenminutestest.R
-import com.example.tenminutestest.logic.model.CommentResponse
-import com.example.tenminutestest.logic.model.PostB
-import com.example.tenminutestest.logic.model.PostResponse
+import com.example.tenminutestest.logic.model.*
 import com.example.tenminutestest.logic.network.CommentService
 import com.example.tenminutestest.logic.network.ServiceCreator
 import com.example.tenminutestest.ui.other.ImageShowActivity
@@ -27,24 +26,28 @@ import java.util.*
 
 class DetailsOfPostActivity:BaseActivity() {
 
+    private var commentList:List<Comment>?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_details)
 
+        val post=intent.getSerializableExtra("post_data") as PostB
+        initPost(post)
+
+        getReply(post)//获取帖子的回复
         //回复的点击事件
         val btnReply: Button =findViewById(R.id.btnReplyPost)
         btnReply.setOnClickListener {
-            popupWindowToReply()
+            popupWindowToReply(post)
         }
 //      获取recyclerView点击item传入的帖子数据
-        val post=intent.getSerializableExtra("post_data") as PostB
-        initPost(post)
-        getReply(post)//获取帖子的回复
+
 
 
     }
     //弹出回复帖子的popupWindow
-    private fun popupWindowToReply(){
+    private fun popupWindowToReply(post: PostB){
         val contentView= LayoutInflater.from(this).inflate(R.layout.pop_reply,null)
         val popupWindow= PopupWindow(contentView,
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -70,6 +73,51 @@ class DetailsOfPostActivity:BaseActivity() {
                 )
             }
         }, 200) //设置200毫秒的时长
+        val addBtn:Button=contentView.findViewById(R.id.btnForReply)
+        addBtn.setOnClickListener {
+            addComment(post,editReply.text.toString())
+            popupWindow.dismiss()
+        }
+
+    }
+
+    private fun addComment(post: PostB, commentText:String){
+
+
+        val id=post.post_id
+
+        if(commentText.isNotEmpty()){
+            val com=CommentUp(id,commentText,"测试账号001")
+            val service=ServiceCreator.create(CommentService::class.java)
+            service.addCommentOfArts(com).enqueue(object :Callback<CommentResponse>{
+                override fun onResponse(
+                    call: Call<CommentResponse>,
+                    response: Response<CommentResponse>
+                ) {
+
+                    Log.d("addCommentSuccess", response.isSuccessful.toString())
+                    Log.d("addCommentSuccess",response.body()?.success.toString())
+                    Log.d("addCommentCode",response.body()?.code.toString())
+                    Log.d("addCommentMessage",response.message().toString()+"无")
+
+                    if(response.isSuccessful){
+                        Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
+                        getReply(post)
+                    }
+
+                }
+
+                override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
+                    t.printStackTrace()
+                }
+
+            })
+        }else{
+            Toast.makeText(this,"评论不可为空",Toast.LENGTH_SHORT).show()
+            Log.d("Details.addComment",commentText)
+        }
+
+
     }
 
     private fun initPost(post: PostB){
@@ -168,10 +216,10 @@ class DetailsOfPostActivity:BaseActivity() {
             goodText.text="${post.goods}"
         }
         commentLayout.setOnClickListener {
-            popupWindowToReply()
+            popupWindowToReply(post)
         }
         commentIcon.setOnClickListener {
-            popupWindowToReply()
+            popupWindowToReply(post)
         }
 
         //图片点击显示
@@ -216,11 +264,15 @@ class DetailsOfPostActivity:BaseActivity() {
                 call: Call<CommentResponse>,
                 response: Response<CommentResponse>
             ) {
+                Log.d("getReplySuccess",response.isSuccessful.toString())
+                Log.d("getReplyCode",response.body()?.code.toString())
                 if(response.isSuccessful){
-                    val commentList=response.body()?.items
+                    commentList=response.body()?.items
+                    Log.d("getReply",commentList.toString())
                     runOnUiThread {
                         if(commentList!=null){
-                            recyclerView.adapter= CommentAdapter(commentList)
+                            commentList?.reversed()
+                            recyclerView.adapter= CommentAdapter(commentList!!)
                         }//没有回复的帖子不绑定适配器，以免崩溃
                     }
                 }

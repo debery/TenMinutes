@@ -30,6 +30,7 @@ import okhttp3.MultipartBody
 import com.example.tenminutestest.logic.RequestInRun
 import okhttp3.RequestBody.Companion.asRequestBody
 import androidx.core.app.ActivityCompat
+import com.example.tenminutestest.User_IO
 
 
 class AddPostActivity : BaseActivity() {
@@ -292,90 +293,97 @@ class AddPostActivity : BaseActivity() {
 
 
         //形成帖子
-        val post= PostUp("测试账号",
-            post_title = "${printTitle.text}",content = "${printContent.text}")
-        //如有图片，上传并将服务器返回的图片地址添加到帖子子里
-        if(image1!=File("")){
-            imageMethod=uploadImageAndPost(image1,post)
-            uriFile?.let { Log.d("after upload,uriFile", it) }
-            Log.d("after upload,picture_1",post.picture_1.toString())
-        }
-        if(image2!=File("")){
-            uploadImageAndPost(image2,post)
-        }
-        if(image3!=File("")){
-            uploadImageAndPost(image3,post)
-        }
-        if(image4!=File("")){
-            uploadImageAndPost(image4,post)
-        }
-        if(image5!=File("")){
-            uploadImageAndPost(image5,post)
-        }
-        if(image6!=File("")){
-            uploadImageAndPost(image6,post)
-        }
-        //根据板块不同，调用不同的add接口
-        val postService=ServiceCreator.create(PostService::class.java)
-        if(!imageMethod){
-            when(place){
-                teaching->{
-                    postService.addPostOfTeaching(post).enqueue(object : Callback<PostResponse> {
-                        override fun onResponse(
-                            call: Call<PostResponse>,
-                            response: Response<PostResponse>
-                        ) {
-                            val data:PostResponse?=response.body()
-                            Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                            Log.d("AddPostActivity", data?.code.toString())
-                            finish()
-                        }
+        val user=User_IO.get_userinfos(this)
+        val nickname=user[2]
+        if(nickname!=null){
+            val post= PostUp(nickname,
+                post_title = "${printTitle.text}",content = "${printContent.text}")
+            //如有图片，上传并将服务器返回的图片地址添加到帖子子里
+            if(image1!=File("")){
+                imageMethod=uploadImageAndPost(image1,post)
+                uriFile?.let { Log.d("after upload,uriFile", it) }
+                Log.d("after upload,picture_1",post.picture_1.toString())
+            }
+            if(image2!=File("")){
+                uploadImageAndPost(image2,post)
+            }
+            if(image3!=File("")){
+                uploadImageAndPost(image3,post)
+            }
+            if(image4!=File("")){
+                uploadImageAndPost(image4,post)
+            }
+            if(image5!=File("")){
+                uploadImageAndPost(image5,post)
+            }
+            if(image6!=File("")){
+                uploadImageAndPost(image6,post)
+            }
+            //根据板块不同，调用不同的add接口
+            val postService=ServiceCreator.create(PostService::class.java)
+            if(!imageMethod){
+                when(place){
+                    teaching->{
+                        postService.addPostOfTeaching(post).enqueue(object : Callback<PostResponse> {
+                            override fun onResponse(
+                                call: Call<PostResponse>,
+                                response: Response<PostResponse>
+                            ) {
+                                val data:PostResponse?=response.body()
+                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
+                                Log.d("AddPostActivity", data?.code.toString())
+                                finish()
+                            }
 
-                        override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                            t.printStackTrace()
-                            Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                        }
-                    })
-                }
-                arts->{
-                    postService.addPostOfArts(post).enqueue(object : Callback<PostResponse> {
-                        override fun onResponse(
-                            call: Call<PostResponse>,
-                            response: Response<PostResponse>
-                        ) {
-                            val data:PostResponse?=response.body()
-                            Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                            Log.d("AddPostActivity", data?.code.toString())
-                            finish()
-                        }
+                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+                                t.printStackTrace()
+                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }
+                    arts->{
+                        postService.addPostOfArts(post).enqueue(object : Callback<PostResponse> {
+                            override fun onResponse(
+                                call: Call<PostResponse>,
+                                response: Response<PostResponse>
+                            ) {
+                                val data:PostResponse?=response.body()
+                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
+                                Log.d("AddPostActivity", data?.code.toString())
+                                finish()
+                            }
 
-                        override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                            t.printStackTrace()
-                            Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                        }
-                    })
+                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+                                t.printStackTrace()
+                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
+                            }
+                        })
 
-                }
-                sport->{
-                    postService.addPostOfSport(post).enqueue(object : Callback<PostResponse> {
-                        override fun onResponse(
-                            call: Call<PostResponse>,
-                            response: Response<PostResponse>
-                        ) {
-                            val data:PostResponse?=response.body()
-                            Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                            Log.d("AddPostActivity", data?.code.toString())
-                            finish()
-                        }
+                    }
+                    sport->{
+                        postService.addPostOfSport(post).enqueue(object : Callback<PostResponse> {
+                            override fun onResponse(
+                                call: Call<PostResponse>,
+                                response: Response<PostResponse>
+                            ) {
+                                val data:PostResponse?=response.body()
+                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
+                                Log.d("AddPostActivity", data?.code.toString())
+                                finish()
+                            }
 
-                        override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                            t.printStackTrace()
-                            Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                        }
-                    })
+                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+                                t.printStackTrace()
+                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }
                 }
             }
+        }else{
+            Toast.makeText(this,"账号不存在，请先登录",Toast.LENGTH_SHORT).show()
         }
+
 
     }
     private fun uploadImageAndPost(image:File,post: PostUp):Boolean{

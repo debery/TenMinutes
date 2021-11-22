@@ -45,13 +45,8 @@ public class User_IO {
             return userList;
         } catch (IOException e) {
             e.printStackTrace();
-            return  null;
-        }finally {
-            try {
-                fis.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return null;
         }
     }
 }
+

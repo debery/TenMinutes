@@ -59,14 +59,10 @@ class TeachTabFragment: Fragment() {
 
     private fun initPostData(){
 
-        replyList.add(Comment(100001,"波神",R.drawable.xing_bo_head,"tql",1))
-        replyList.add(Comment(100002,"陈皇",R.drawable.chen,"qs",2))
-        replyList.add(Comment(100001,"波神",R.drawable.xing_bo_head,"tql",1))
-        replyList.add(Comment(100002,"陈皇",R.drawable.chen,"qs",2))
         postList.add(
             Post(100000001,"区神",
             R.drawable.little_dog,"无敌","无敌",
-            R.drawable.ou_he_ming,commentList = replyList)
+            R.drawable.ou_he_ming)
         )
         postList.add(Post(100000002,"boShen", R.drawable.xing_bo_head,"确实","qs"))
         postList.add(

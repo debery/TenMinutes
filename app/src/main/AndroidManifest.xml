@@ -22,6 +22,9 @@
             android:name="com.example.tenminutestest.ui.other.SearchActivity"
             android:exported="true" />
         <activity
+            android:name="com.example.tenminutestest.ui.other.postdetail.DetailsOfPostActivity"
+            android:exported="true" />
+        <activity
             android:name="com.example.tenminutestest.ui.other.AddPostActivity"
             android:exported="true" />
         <activity

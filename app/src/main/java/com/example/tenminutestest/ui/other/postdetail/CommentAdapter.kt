@@ -16,6 +16,7 @@ class CommentAdapter(private val commentList: List<Comment>):RecyclerView.Adapte
         val name:TextView=view.findViewById(R.id.replyUserName)
         val floor:TextView=view.findViewById(R.id.replyFloor)
         val content:TextView=view.findViewById(R.id.replyContent)
+        val time:TextView=view.findViewById(R.id.replyTime)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,10 +26,12 @@ class CommentAdapter(private val commentList: List<Comment>):RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val comment=commentList[position]
-        holder.image.setImageResource(comment.userHeadId)
-        holder.name.text=comment.userName
+        val floor=position+1
+        //holder.image.setImageResource(comment.userHeadId)
+        holder.name.text=comment.nickname
         holder.content.text=comment.content
-        holder.floor.text="$position"+"楼"
+        holder.floor.text=floor.toString()+"楼"
+        holder.time.text=comment.time
     }
 
     override fun getItemCount()=commentList.size

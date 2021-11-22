@@ -1,6 +1,7 @@
 package com.example.tenminutestest.ui.main
 
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -9,7 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.tenminutestest.BaseActivity
 import com.example.tenminutestest.R
+import com.example.tenminutestest.User_IO
+import com.example.tenminutestest.logic.RequestInRun
 import com.example.tenminutestest.ui.main.fragment.*
+import com.example.tenminutestest.ui.other.log.LogActivity
+import java.io.File
+import java.io.FileInputStream
 
 
 class MainActivity : BaseActivity() {
@@ -24,15 +30,19 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //移除出一键全部退出的activities列表
+        activityRemove(this)
+
+        //获取文件读写权限
+        RequestInRun().verifyStoragePermissions(this)
         //跳转到登录界面
-
-//        java.lang.NullPointerException:Attempt to invoke virtual method 'void java.io.FileInputStream.close()'
-//              on a null object reference
-
-//        if(User_IO.get_userinfos(this)==null){
-//            val intent= Intent(this,LogActivity::class.java)
-//            startActivity(intent)
-//        }
+        if(User_IO.get_userinfos(this)==null){
+            val intent= Intent(this, LogActivity::class.java)
+            startActivity(intent)
+        }
+        else{
+            System.out.println("error")
+        }
 
 
         //初始化布局，将fragment创建，add并hide
