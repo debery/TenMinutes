@@ -23,13 +23,13 @@
             android:layout_gravity="center_vertical"
             ></TextView>
         <Button
+            android:id="@+id/config"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="260dp"
             android:background="@drawable/my_config"
-            android:onClick="config"
-            ></Button>
+            />
     </LinearLayout>
 
     <RelativeLayout

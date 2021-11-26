@@ -17,7 +17,7 @@
             android:background="@drawable/left_arrow"
             android:layout_marginTop="10dp"
             android:id="@+id/backmine"
-            ></Button>
+            />
         <TextView
             android:layout_width="80dp"
             android:layout_height="40dp"
@@ -25,7 +25,7 @@
             android:textSize="28dp"
             android:textColor="@color/black"
             android:layout_centerInParent="true"
-            ></TextView>
+            />
     </RelativeLayout>
 
     <LinearLayout
@@ -39,7 +39,7 @@
             android:id="@+id/config_list"
             android:divider="#CDCDCD"
             android:dividerHeight="3dp"
-            ></ListView>
+            />
     </LinearLayout>
 
 </LinearLayout>

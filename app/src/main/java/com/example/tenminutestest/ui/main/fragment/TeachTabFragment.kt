@@ -42,7 +42,6 @@ class TeachTabFragment: Fragment() {
         val btnAddFolder: Button? =view?.findViewById(R.id.addFolder)
         val btnNotice: Button? =view?.findViewById(R.id.notice)
 
-
         btnAddFolder?.setOnClickListener {
             AddButton().showWindow(activity)
         }

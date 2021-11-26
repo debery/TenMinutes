@@ -11,9 +11,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.tenminutestest.BaseActivity;
 import com.example.tenminutestest.R;
 
-public class Config extends AppCompatActivity {
+public class Config extends BaseActivity {
     private String[]configname={"个人资料","账号管理","消息设置","隐私设置","缓存清理","用户协议","隐私政策","安全条款","关于我们"};
     ListView config_list=null;
     TextView configItemname=null;

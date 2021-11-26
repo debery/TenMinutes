@@ -36,7 +36,6 @@ class UserTabFragment:Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_mine,container,false)
     }
 
@@ -56,13 +55,17 @@ class UserTabFragment:Fragment() {
                 startActivity(intent)
             }
         }
-
+        val config:Button=view?.findViewById(R.id.config)!!
+        config.setOnClickListener {
+            val intent = Intent(activity, Config::class.java)
+            startActivity(intent)
+        }
     }
 
-    fun config(view: View?) {
-        val intent = Intent(activity, Config::class.java)
-        startActivity(intent)
-    }
+//    fun config(view: View?) {
+//        val intent = Intent(activity, Config::class.java)
+//        startActivity(intent)
+//    }
 
     private class firstMineAdapter(val list:List<Int>,val listSecond:List<String>) : BaseAdapter() //"我的"页面第一个适配器
     {
@@ -78,7 +81,7 @@ class UserTabFragment:Fragment() {
             return position.toLong()
         }
 
-        override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
             var convertView = convertView
             var fmine: FMineViewHolder? = null
             if (convertView == null) {
@@ -116,7 +119,7 @@ class UserTabFragment:Fragment() {
             return position.toLong()
         }
 
-        override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
             var convertView = convertView
             var smine: SMineViewHolder? = null
             if (convertView == null) {
