@@ -7,38 +7,45 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
-        android:name="com.example.tenminutestest.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TenMinutesTest2"
-        android:requestLegacyExternalStorage="true"
-        android:networkSecurityConfig="@xml/network_config">
+        android:theme="@style/Theme.TenMinutesTest2">
         <activity
-            android:name="com.example.tenminutestest.ui.other.SearchActivity"
+            android:name=".ui.other.Config"
+            android:exported="false" />
+        <activity
+            android:name=".ui.other.Punch_pt"
+            android:exported="false" />
+        <activity
+            android:name=".ui.other.SearchActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.tenminutestest.ui.other.postdetail.DetailsOfPostActivity"
+            android:name=".ui.other.postdetail.DetailsOfPostActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.tenminutestest.ui.other.AddPostActivity"
+            android:name=".ui.other.AddPostActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.tenminutestest.ui.other.PictureShowActivity"
+            android:name=".ui.other.PictureShowActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.tenminutestest.ui.other.ImageShowActivity"
+            android:name=".ui.other.ImageShowActivity"
             android:exported="true" />
-        <activity android:name=".ui.other.log.LogActivity"
-            android:exported="true"/>
-        <activity android:name=".ui.other.log.sign_up_page"
-            android:exported="true"/>
         <activity
-            android:name="com.example.tenminutestest.ui.main.MainActivity"
+            android:name=".ui.other.log.LogActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.other.log.sign_up_page"
+            android:exported="true" />
+        <activity
+            android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,8 +53,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.tenminutestest.ui.other.postdetail.PostDetailsActivity" />
-        <activity android:name="com.example.tenminutestest.ui.other.NoticeActivity" />
+        <activity android:name=".ui.other.postdetail.PostDetailsActivity" />
+        <activity android:name=".ui.other.NoticeActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -58,8 +65,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-
     </application>
 
 </manifest>
