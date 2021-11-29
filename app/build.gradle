@@ -42,6 +42,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'io.github.lucksiege:pictureselector:v2.7.3-rc10'
     implementation files('libs/mysql-connector-java-5.1.49.jar')
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     testImplementation 'junit:junit:4.+'

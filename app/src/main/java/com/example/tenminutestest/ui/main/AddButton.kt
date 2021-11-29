@@ -10,12 +10,13 @@ import android.widget.Button
 import android.widget.PopupWindow
 import androidx.fragment.app.FragmentActivity
 import com.example.tenminutestest.R
+import com.example.tenminutestest.ui.main.fragment.TeachTabFragment
 import com.example.tenminutestest.ui.other.AddPostActivity
 
 
 //用于在主界面的三个需要用到跳出同样的弹窗的代码，需要传入对应的ActivityFragment来进行操作
 
-class AddButton {
+class AddButton(private val frag:Int) {
     fun showWindow(activity: FragmentActivity?){
         val contentView= LayoutInflater.from(activity).inflate(R.layout.pop_create_post,null)
         val popupWindow= PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -37,14 +38,13 @@ class AddButton {
         val btnAdd: Button =view.findViewById(R.id.btnAdd)
         val btnCancel: Button =view.findViewById(R.id.btnCancelInPop)
 
-
-
         //点击”动态“
         btnAdd.setOnClickListener {
             popupWindow.dismiss()
             backgroundAlpha(1f,activity)
             val intent= Intent(activity, AddPostActivity::class.java)
-            activity?.startActivity(intent)
+            intent.putExtra("fragment",frag)
+            activity?.startActivityForResult(intent,1)
         }
 
         btnCancel.setOnClickListener {
@@ -52,6 +52,7 @@ class AddButton {
             backgroundAlpha(1f,activity)
         }
     }
+
 
     //设置透明度的代码
     //本体函数在MainActivity

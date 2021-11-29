@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.tenminutestest.BaseActivity
 import com.example.tenminutestest.MyApplication
 import com.example.tenminutestest.R
+import com.example.tenminutestest.User_IO
 import com.example.tenminutestest.logic.model.*
 import com.example.tenminutestest.logic.network.CommentService
 import com.example.tenminutestest.logic.network.ServiceCreator
@@ -87,31 +88,37 @@ class DetailsOfPostActivity:BaseActivity() {
         val id=post.post_id
 
         if(commentText.isNotEmpty()){
-            val com=CommentUp(id,commentText,"测试账号001")
-            val service=ServiceCreator.create(CommentService::class.java)
-            service.addCommentOfArts(com).enqueue(object :Callback<CommentResponse>{
-                override fun onResponse(
-                    call: Call<CommentResponse>,
-                    response: Response<CommentResponse>
-                ) {
+            if(User_IO.get_userinfos(this)!=null){
+                val nickname=User_IO.get_userinfos(this)[2]
+                val com=CommentUp(id,commentText,nickname)
+                val service=ServiceCreator.create(CommentService::class.java)
+                service.addCommentOfArts(com).enqueue(object :Callback<CommentResponse>{
+                    override fun onResponse(
+                        call: Call<CommentResponse>,
+                        response: Response<CommentResponse>
+                    ) {
 
-                    Log.d("addCommentSuccess", response.isSuccessful.toString())
-                    Log.d("addCommentSuccess",response.body()?.success.toString())
-                    Log.d("addCommentCode",response.body()?.code.toString())
-                    Log.d("addCommentMessage",response.message().toString()+"无")
+                        Log.d("addCommentSuccess", response.isSuccessful.toString())
+                        Log.d("addCommentSuccess",response.body()?.success.toString())
+                        Log.d("addCommentCode",response.body()?.code.toString())
+                        Log.d("addCommentMessage",response.message().toString()+"无")
 
-                    if(response.isSuccessful){
-                        Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                        getReply(post)
+                        if(response.isSuccessful){
+                            Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
+                            getReply(post)
+                        }
+
                     }
 
-                }
+                    override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
+                        t.printStackTrace()
+                    }
 
-                override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
-                    t.printStackTrace()
-                }
+                })
+            }else{
+                Toast.makeText(this,"找不到用户，请先登录",Toast.LENGTH_SHORT).show()
+            }
 
-            })
         }else{
             Toast.makeText(this,"评论不可为空",Toast.LENGTH_SHORT).show()
             Log.d("Details.addComment",commentText)
@@ -154,9 +161,9 @@ class DetailsOfPostActivity:BaseActivity() {
         postTitle.text=post.post_title
         content.text=post.content
         time.text=post.time
-        if(post.goods!=0)
+        if(post.goods!=null)
             goodText.text="${post.goods}"
-        if(post.replys!=0)
+        if(post.replys!=null)
             commentText.text="${post.replys}"
         if(post.picture_1!=null&&post.picture_2==null) {
             pictureSingle.visibility= View.VISIBLE
@@ -202,14 +209,14 @@ class DetailsOfPostActivity:BaseActivity() {
         }
         //点击监听
         agreedLayout.setOnClickListener{
-            post.goods++/* 待修改，应设置为每个用户只生效1次*/
+            /* 待修改，应设置为每个用户只生效1次*/
             goodIcon.setBackgroundResource(
                 R.drawable.dianzan_fill
             )
             goodText.text="${post.goods}"
         }
         goodIcon.setOnClickListener{
-            post.goods++/* 待修改，应设置为每个用户只生效1次*/
+            /* 待修改，应设置为每个用户只生效1次*/
             goodIcon.setBackgroundResource(
                 R.drawable.dianzan_fill
             )

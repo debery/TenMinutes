@@ -65,7 +65,7 @@ class GeneralPostAdapter(private val postList:List<PostB>):RecyclerView.Adapter<
         holder.postTitle.text=post.post_title
         holder.content.text=post.content
         holder.time.text=post.time
-        if(post.goods!=0)holder.dianzan.text="${post.goods}"
+        if(post.goods!=null)holder.dianzan.text="${post.goods}"
         if(post.picture_1!=null&&post.picture_2==null) {
             holder.pictureSingle.visibility=View.VISIBLE
             Glide.with(holder.pictureSingle.context).load(post.picture_1).thumbnail(0.2f)
@@ -110,14 +110,14 @@ class GeneralPostAdapter(private val postList:List<PostB>):RecyclerView.Adapter<
         }
         //点击监听
         holder.agreedLayout.setOnClickListener{
-            post.goods++/* 待修改，应设置为每个用户只生效1次*/
+            //待修改，需要接口
             holder.agreedIcon.setBackgroundResource(
                 R.drawable.dianzan_fill
             )
             holder.dianzan.text="${post.goods}"
         }
         holder.agreedIcon.setOnClickListener{
-            post.goods++/* 待修改，应设置为每个用户只生效1次*/
+
             holder.agreedIcon.setBackgroundResource(
                 R.drawable.dianzan_fill
             )

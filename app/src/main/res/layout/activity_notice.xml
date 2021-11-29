@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         >
         <Button
+            android:layout_marginStart="10dp"
             android:id="@+id/noticeActivityFinish"
             android:layout_width="30dp"
             android:layout_height="35dp"
@@ -38,12 +39,12 @@
         android:layout_gravity="right"
         android:text="清除通知"/>
     <View
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#6F6F6F"/>
+        android:background="@color/background"/>
     <LinearLayout
         android:id="@+id/noticeActivityMention"
         android:layout_width="match_parent"
@@ -79,11 +80,11 @@
             android:src="@drawable/right_arrow"/>
     </LinearLayout>
     <View
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#6F6F6F"/>
+        android:background="@color/background"/>
     <LinearLayout
         android:id="@+id/noticeActivityComment"
         android:layout_width="match_parent"
@@ -119,11 +120,11 @@
             android:src="@drawable/right_arrow"/>
     </LinearLayout>
     <View
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#6F6F6F"/>
+        android:background="@color/background"/>
     <LinearLayout
         android:id="@+id/noticeActivityAgreed"
         android:layout_width="match_parent"
@@ -155,11 +156,11 @@
             android:src="@drawable/right_arrow"/>
     </LinearLayout>
     <View
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#6F6F6F"/>
+        android:background="@color/background"/>
     <LinearLayout
         android:id="@+id/noticeActivityFriend"
         android:layout_width="match_parent"

@@ -15,6 +15,7 @@
             android:layout_height="40dp"
             android:src="@drawable/finish"/>
         <View
+            android:id="@+id/placeShow"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"/>
@@ -40,7 +41,7 @@
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="输入标题（必填，4-10字）"
+        android:hint="输入标题（必填，不大于30字）"
         android:maxLines="1"
         android:background="@null"/>
     <View
@@ -162,6 +163,13 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/plankShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="板块"
+            android:textColor="@color/app_green"
+            android:layout_gravity="center"/>
         <ImageView
             android:layout_gravity="center"
             android:layout_width="wrap_content"
@@ -176,7 +184,7 @@
         android:layout_height="1dp"
         android:background="@color/background"/>
     <LinearLayout
-        android:id="@+id/addPostActivityLocationLayout"
+        android:id="@+id/locationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -208,6 +216,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray"/>
+        android:background="@color/background"/>
 
 </LinearLayout>

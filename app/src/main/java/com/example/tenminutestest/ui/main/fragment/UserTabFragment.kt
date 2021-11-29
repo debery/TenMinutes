@@ -60,6 +60,14 @@ class UserTabFragment:Fragment() {
             val intent = Intent(activity, Config::class.java)
             startActivity(intent)
         }
+        val nickname:TextView=view?.findViewById(R.id.user_nickname)!!
+        val id:TextView=view?.findViewById(R.id.user_id)!!
+        val user=User_IO.get_userinfos(activity)
+        if(user!=null){
+            nickname.text=user[2]
+            id.text=user[1]
+        }
+
     }
 
 //    fun config(view: View?) {

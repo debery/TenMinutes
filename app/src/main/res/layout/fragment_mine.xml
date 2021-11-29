@@ -21,7 +21,7 @@
             android:textColor="@color/black"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
-            ></TextView>
+            />
         <Button
             android:id="@+id/config"
             android:layout_width="30dp"
@@ -43,10 +43,10 @@
             android:layout_height="75dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/personpic"></ImageView>
+            android:src="@drawable/personpic" />
 
         <TextView
-            android:id="@+id/id"
+            android:id="@+id/user_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -54,16 +54,17 @@
             android:layout_toRightOf="@id/face"
             android:text="Ceneho"
             android:textColor="@color/black"
-            android:textSize="20dp"></TextView>
+            android:textSize="20dp" />
 
         <TextView
+            android:id="@+id/user_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/id"
-            android:layout_alignLeft="@id/id"
+            android:layout_below="@id/user_nickname"
+            android:layout_alignLeft="@id/user_nickname"
             android:layout_marginTop="10dp"
             android:text="ID:3222210"
-            android:textSize="12dp"></TextView>
+            android:textSize="12dp" />
 
         <Button
             android:layout_width="35dp"
@@ -71,7 +72,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:background="@drawable/right_arrow"></Button>
+            android:background="@drawable/right_arrow"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -87,7 +88,7 @@
             android:layout_marginTop="20dp"
             android:divider="#00000000"
             android:dividerHeight="20dp"
-            ></ListView>
+            />
 
     </LinearLayout>
     <LinearLayout
@@ -104,7 +105,7 @@
             android:divider="@color/white"
             android:layout_marginTop="20dp"
             android:dividerHeight="20dp"
-            ></ListView>
+            />
     </LinearLayout>
 
 </LinearLayout>

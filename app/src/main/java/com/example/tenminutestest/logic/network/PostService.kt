@@ -16,7 +16,7 @@ interface PostService {
     fun addPostOfTeaching(@Body post: PostUp): Call<PostResponse>
     @POST("PostOfArts/add")
     fun addPostOfArts(@Body post: PostUp): Call<PostResponse>
-    @POST("PostOfSport/add")
+    @POST("PostOfSports/add")
     fun addPostOfSport(@Body post: PostUp): Call<PostResponse>
 
     //list
@@ -24,7 +24,7 @@ interface PostService {
     fun listPostOfTeaching():Call<PostResponse>
     @POST("PostOfArts/list")
     fun listPostOfArts():Call<PostResponse>
-    @POST("PostOfSport/list")
+    @POST("PostOfSports/list")
     fun listPostOfSport():Call<PostResponse>
 
     //delete
@@ -32,7 +32,7 @@ interface PostService {
     fun deletePostOfTeaching(@Body post: PostB):Call<PostResponse>
     @POST("PostOfArts/delete")
     fun deletePostOfArts(@Body post: PostB):Call<PostResponse>
-    @POST("PostOfSport/delete")
+    @POST("PostOfSports/delete")
     fun deletePostOfSport(@Body post: PostB):Call<PostResponse>
 
 }

@@ -51,7 +51,7 @@ class AddPostActivity : BaseActivity() {
     private val teaching=1
     private val arts=2
     private val sport=3
-    private var place=arts//默认艺术类
+    private var plank=0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,11 +67,25 @@ class AddPostActivity : BaseActivity() {
 
         val btnFinish:ImageView=findViewById(R.id.btnAddPostActivityFinish)
         val choosePlace:LinearLayout=findViewById(R.id.addPostActivityPlaceLayout)
+        val location:LinearLayout=findViewById(R.id.locationLayout)
         val picture1:ImageView=findViewById(R.id.picture1)
         val deliver:Button=findViewById(R.id.deliver)
         val printTitle:EditText=findViewById(R.id.printTitle)
         val printContent:EditText=findViewById(R.id.printContent)
 
+
+
+        plank = intent.getIntExtra("fragment",1)//很奇怪，这里一直是0，待解决
+        Log.d("addActivity",intent.getIntExtra("fragment",1).toString())//0
+
+        when(plank){
+            0->Toast.makeText(this,"0",Toast.LENGTH_SHORT).show()
+            1->Toast.makeText(this,"教技",Toast.LENGTH_SHORT).show()
+            2->Toast.makeText(this,"艺术",Toast.LENGTH_SHORT).show()
+            3->Toast.makeText(this,"体育",Toast.LENGTH_SHORT).show()
+        }
+
+        showPlankText()
         btnFinish.setOnClickListener {
             finish()
         }
@@ -79,22 +93,35 @@ class AddPostActivity : BaseActivity() {
             showPicturePopWindow()
         }
         choosePlace.setOnClickListener {
-            showPlacePopWindow()
+            showPlankPopWindow()
+        }
+        location.setOnClickListener {
+            Toast.makeText(this,"如果我没猜错，你的位置现在在岭南师范学院",Toast.LENGTH_LONG).show()
         }
         deliver.setOnClickListener {
-            if(printTitle.text.length<4){
-                Toast.makeText(this,"标题长度小于四个字符",Toast.LENGTH_SHORT).show()
-
-            }else if(printTitle.text.length>30){
-                Toast.makeText(this,"标题长度不可大于三十个字",Toast.LENGTH_SHORT).show()
+            if(printTitle.text.toString().isNotEmpty()){
+                if(printTitle.text.toString().length<30){
+                    postAdd()
+                }else{
+                    Toast.makeText(this,"标题不可大于30字",Toast.LENGTH_SHORT).show()
+                }
             }else{
-                postAdd()
+                Toast.makeText(this,"标题不可为空",Toast.LENGTH_SHORT).show()
             }
 
         }
     }
 
-    private fun showPlacePopWindow(){
+    private fun showPlankText(){
+        val show:TextView=findViewById(R.id.plankShow)
+        when(plank){
+            teaching-> show.text="教技"
+            arts-> show.text="艺术"
+            sport-> show.text="体育"
+        }
+    }
+
+    private fun showPlankPopWindow(){
         val contentView= LayoutInflater.from(this).inflate(R.layout.pop_select_place,null)
         val popupWindow= PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         popupWindow.isFocusable=true
@@ -120,22 +147,25 @@ class AddPostActivity : BaseActivity() {
             backgroundAlpha(1f)
         }
         btnTeach.setOnClickListener {
-            place=teaching
+            plank=teaching
             Toast.makeText(this,"选择了 教技 板块",Toast.LENGTH_SHORT).show()
             popupWindow.dismiss()
             backgroundAlpha(1f)
+            showPlankText()
         }
         btnDraw.setOnClickListener {
-            place=arts
+            plank=arts
             Toast.makeText(this,"选择了 艺术 板块",Toast.LENGTH_SHORT).show()
             popupWindow.dismiss()
             backgroundAlpha(1f)
+            showPlankText()
         }
         btnSport.setOnClickListener {
-            place=sport
+            plank=sport
             Toast.makeText(this,"选择了 体育 板块",Toast.LENGTH_SHORT).show()
             popupWindow.dismiss()
             backgroundAlpha(1f)
+            showPlankText()
         }
 
     }
@@ -285,7 +315,6 @@ class AddPostActivity : BaseActivity() {
     }
 
 
-
     private fun postAdd(){
         val printTitle:EditText=findViewById(R.id.printTitle)
         val printContent:EditText=findViewById(R.id.printContent)
@@ -322,7 +351,7 @@ class AddPostActivity : BaseActivity() {
             //根据板块不同，调用不同的add接口
             val postService=ServiceCreator.create(PostService::class.java)
             if(!imageMethod){
-                when(place){
+                when(plank){
                     teaching->{
                         postService.addPostOfTeaching(post).enqueue(object : Callback<PostResponse> {
                             override fun onResponse(
@@ -331,7 +360,10 @@ class AddPostActivity : BaseActivity() {
                             ) {
                                 val data:PostResponse?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostActivity", data?.code.toString())
+                                Log.d("AddPostTeaching", response.isSuccessful.toString())
+                                val intent=Intent()
+                                intent.putExtra("send",true)
+                                setResult(1,intent)
                                 finish()
                             }
 
@@ -349,7 +381,10 @@ class AddPostActivity : BaseActivity() {
                             ) {
                                 val data:PostResponse?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostActivity", data?.code.toString())
+                                Log.d("AddPostArts", response.isSuccessful.toString())
+                                val intent=Intent()
+                                intent.putExtra("send",true)
+                                setResult(2,intent)
                                 finish()
                             }
 
@@ -368,7 +403,10 @@ class AddPostActivity : BaseActivity() {
                             ) {
                                 val data:PostResponse?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostActivity", data?.code.toString())
+                                Log.d("AddPostSport", response.isSuccessful.toString())
+                                val intent=Intent()
+                                intent.putExtra("send",true)
+                                setResult(3,intent)
                                 finish()
                             }
 
@@ -419,7 +457,7 @@ class AddPostActivity : BaseActivity() {
 
 
                 if(imageList.size==imageCount)//只执行一次addPost
-                when(place){
+                when(plank){
                     teaching->{
                         postService.addPostOfTeaching(post).enqueue(object : Callback<PostResponse> {
                             override fun onResponse(
@@ -428,7 +466,7 @@ class AddPostActivity : BaseActivity() {
                             ) {
                                 val data:PostResponse?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostActivity", data?.code.toString())
+                                Log.d("AddPostTeaching", response.isSuccessful.toString())
                                 finish()
                             }
 
@@ -446,7 +484,7 @@ class AddPostActivity : BaseActivity() {
                             ) {
                                 val data:PostResponse?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostActivity", data?.code.toString())
+                                Log.d("AddPostArts", response.isSuccessful.toString())
                                 finish()
                             }
 
@@ -465,7 +503,7 @@ class AddPostActivity : BaseActivity() {
                             ) {
                                 val data:PostResponse?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostActivity", data?.code.toString())
+                                Log.d("AddPostSport", response.isSuccessful.toString())
                                 finish()
                             }
 

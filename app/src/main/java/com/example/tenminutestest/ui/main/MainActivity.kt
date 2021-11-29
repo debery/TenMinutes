@@ -14,14 +14,12 @@ import com.example.tenminutestest.User_IO
 import com.example.tenminutestest.logic.RequestInRun
 import com.example.tenminutestest.ui.main.fragment.*
 import com.example.tenminutestest.ui.other.log.LogActivity
-import java.io.File
-import java.io.FileInputStream
 
 
 class MainActivity : BaseActivity() {
 
     private var teachTabFragment: TeachTabFragment?= null
-    private var drawTabFragment: DrawTabFragment?= null
+    private var artsTabFragment: ArtsTabFragment?= null
     private var sportTabFragment: SportTabFragment?=null
     private var userTabFragment: UserTabFragment?=null
     private var hotTabFragment: HotTabFragment?=null
@@ -41,9 +39,8 @@ class MainActivity : BaseActivity() {
             startActivity(intent)
         }
         else{
-            System.out.println("error")
+            println("error")
         }
-
 
         //初始化布局，将fragment创建，add并hide
         initFragment()
@@ -82,11 +79,11 @@ class MainActivity : BaseActivity() {
 
         //艺术
         tabArt.setOnClickListener {
-            showFragment(drawTabFragment!!)
+            showFragment(artsTabFragment!!)
             changeIconAndText(2)
         }
         btnArt.setOnClickListener {
-            showFragment(drawTabFragment!!)
+            showFragment(artsTabFragment!!)
             changeIconAndText(2)
         }
         //体育
@@ -122,7 +119,7 @@ class MainActivity : BaseActivity() {
     //隐藏所有fragment，用在showFragment前
     private fun hideFragment(transaction: FragmentTransaction){
         transaction.hide(teachTabFragment!!)
-        transaction.hide(drawTabFragment!!)
+        transaction.hide(artsTabFragment!!)
         transaction.hide(sportTabFragment!!)
         transaction.hide(userTabFragment!!)
         transaction.hide(hotTabFragment!!)
@@ -138,10 +135,10 @@ class MainActivity : BaseActivity() {
             transaction.add(R.id.content_fragment, teachTabFragment!!)
             transaction.hide(teachTabFragment!!)
         }
-        if(drawTabFragment==null){
-            drawTabFragment= DrawTabFragment()
-            transaction.add(R.id.content_fragment,drawTabFragment!!)
-            transaction.hide(drawTabFragment!!)
+        if(artsTabFragment==null){
+            artsTabFragment= ArtsTabFragment()
+            transaction.add(R.id.content_fragment,artsTabFragment!!)
+            transaction.hide(artsTabFragment!!)
         }
 
         if(sportTabFragment==null) {
