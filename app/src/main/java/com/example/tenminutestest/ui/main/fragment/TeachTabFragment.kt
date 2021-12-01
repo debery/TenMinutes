@@ -14,10 +14,9 @@ import com.example.tenminutestest.logic.model.PostB
 import com.example.tenminutestest.logic.model.PostResponse
 import com.example.tenminutestest.logic.network.PostService
 import com.example.tenminutestest.logic.network.ServiceCreator
-import com.example.tenminutestest.ui.main.AddButton
+import com.example.tenminutestest.ui.main.ShowButton
 import com.example.tenminutestest.ui.main.MainActivity
 import com.example.tenminutestest.ui.main.adapter.GeneralPostAdapter
-import com.example.tenminutestest.ui.other.AddPostActivity
 import com.example.tenminutestest.ui.other.NoticeActivity
 import com.example.tenminutestest.ui.other.SearchActivity
 import retrofit2.Call
@@ -46,7 +45,7 @@ class TeachTabFragment: Fragment() {
         val contentView= LayoutInflater.from(activity).inflate(R.layout.pop_create_post,null)
         val btnAdd: Button =contentView.findViewById(R.id.btnAdd)
         btnAddFolder?.setOnClickListener {
-            AddButton(1).showWindow(activity)
+            ShowButton(1).showAddWindow(activity)
         }
         btnNotice?.setOnClickListener {
             val intent = Intent(activity, NoticeActivity::class.java)

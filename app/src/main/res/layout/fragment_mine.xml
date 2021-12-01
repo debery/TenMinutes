@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -22,12 +21,16 @@
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
             />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
         <Button
             android:id="@+id/config"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginRight="20dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="260dp"
             android:background="@drawable/my_config"
             />
     </LinearLayout>
@@ -43,7 +46,10 @@
             android:layout_height="75dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/personpic" />
+            android:src="@drawable/personpic"
+            android:background="@color/white"
+
+            />
 
         <TextView
             android:id="@+id/user_nickname"
@@ -72,7 +78,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:background="@drawable/right_arrow"/>
+            android:background="@drawable/right_arrow" />
     </RelativeLayout>
 
     <LinearLayout

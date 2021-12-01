@@ -11,7 +11,7 @@
         android:text="个人资料"
         android:textColor="@color/black"
         android:textSize="20dp"
-        android:layout_marginLeft="15dp"></TextView>
+        android:layout_marginLeft="15dp"/>
 
     <ImageView
         android:layout_width="30dp"
@@ -20,6 +20,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:layout_centerVertical="true"
-        ></ImageView>
+        />
 
 </RelativeLayout>

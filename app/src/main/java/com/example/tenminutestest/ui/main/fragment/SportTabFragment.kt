@@ -15,7 +15,7 @@ import com.example.tenminutestest.logic.model.PostB
 import com.example.tenminutestest.logic.model.PostResponse
 import com.example.tenminutestest.logic.network.PostService
 import com.example.tenminutestest.logic.network.ServiceCreator
-import com.example.tenminutestest.ui.main.AddButton
+import com.example.tenminutestest.ui.main.ShowButton
 import com.example.tenminutestest.ui.main.MainActivity
 import com.example.tenminutestest.ui.main.adapter.GeneralPostAdapter
 import com.example.tenminutestest.ui.other.NoticeActivity
@@ -46,7 +46,7 @@ class SportTabFragment:Fragment() {
         val btnNotice: Button? =view?.findViewById(R.id.notice)
 
         btnAddFolder?.setOnClickListener {
-            AddButton(3).showWindow(activity)
+            ShowButton(3).showAddWindow(activity)
         }
         btnNotice?.setOnClickListener {
             val intent = Intent(activity, NoticeActivity::class.java)

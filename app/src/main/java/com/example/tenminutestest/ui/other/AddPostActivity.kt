@@ -10,8 +10,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
-import com.example.tenminutestest.BaseActivity
-import com.example.tenminutestest.R
 import com.example.tenminutestest.logic.model.PostResponse
 import com.example.tenminutestest.logic.network.PostService
 import com.example.tenminutestest.logic.network.ServiceCreator
@@ -19,8 +17,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-
-import com.example.tenminutestest.MyApplication
 import com.example.tenminutestest.logic.ContentUriUtil
 import com.example.tenminutestest.logic.model.FileResponse
 import com.example.tenminutestest.logic.model.PostUp
@@ -30,7 +26,9 @@ import okhttp3.MultipartBody
 import com.example.tenminutestest.logic.RequestInRun
 import okhttp3.RequestBody.Companion.asRequestBody
 import androidx.core.app.ActivityCompat
-import com.example.tenminutestest.User_IO
+import com.example.tenminutestest.*
+import android.os.FileUtils
+import java.nio.file.FileSystem
 
 
 class AddPostActivity : BaseActivity() {
@@ -74,7 +72,6 @@ class AddPostActivity : BaseActivity() {
         val printContent:EditText=findViewById(R.id.printContent)
 
 
-
         plank = intent.getIntExtra("fragment",1)//很奇怪，这里一直是0，待解决
         Log.d("addActivity",intent.getIntExtra("fragment",1).toString())//0
 
@@ -90,6 +87,7 @@ class AddPostActivity : BaseActivity() {
             finish()
         }
         picture1.setOnClickListener {
+
             showPicturePopWindow()
         }
         choosePlace.setOnClickListener {
@@ -207,6 +205,7 @@ class AddPostActivity : BaseActivity() {
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.type="image/*"
             startActivityForResult(intent,1)
+
         }
 
     }
@@ -232,6 +231,7 @@ class AddPostActivity : BaseActivity() {
         when(requestCode){
             1->{
                 if(resultCode==Activity.RESULT_OK && data!=null){
+                    RequestInRun().verifyStoragePermissions(this)
                     /*
                     data.data?.let {
                         val bitmap=contentResolver.openFileDescriptor(it,"r")?.use {
@@ -252,17 +252,21 @@ class AddPostActivity : BaseActivity() {
                     */
 
                     RequestInRun().verifyStoragePermissions(this)
-                    image1=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!)
-                    Log.d("wuhu",
-                        Uri.fromFile(File(ContentUriUtil()
-                            .getPath(MyApplication.context,data.data!!)!!)).toString())
+                    //获取图片真实地址
+                    val imagePath=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!).path
+                    Log.d("before compress",File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!).length().toString())
+                    //压缩图片，并保存路径
+                    image1=File(BitmapUtil.compressImage(imagePath))
+                    Log.d("after compress",image1.length().toString())
+
                     imageClick(data.data!!,picture1,picture2,2)
-                    imageCount++
+                    imageCount++//用于上传时计数，有多少张图调用多少次上传接口
                 }
             }
             2->{
                 if(resultCode==Activity.RESULT_OK && data!=null){
-                    image2=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!)
+                    val imagePath=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!).path
+                    image2=File(BitmapUtil.compressImage(imagePath))
                     imageClick(data.data!!,picture2,picture3,3)
                     imageCount++
                 }
@@ -271,29 +275,33 @@ class AddPostActivity : BaseActivity() {
                 if(resultCode==Activity.RESULT_OK && data!=null){
                     val layout:LinearLayout=findViewById(R.id.addPostActivityPictureLayout)
                     layout.visibility=View.VISIBLE
-                    image3=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!)
+                    val imagePath=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!).path
+                    image3=File(BitmapUtil.compressImage(imagePath))
                     imageClick(data.data!!,picture3,picture4,4)
                     imageCount++
                 }
             }
             4->{
                 if(resultCode==Activity.RESULT_OK && data!=null){
-
-                    image4=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!)
+                    val imagePath=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!).path
+                    image4=File(BitmapUtil.compressImage(imagePath))
                     imageClick(data.data!!,picture4,picture5,5)
                     imageCount++
                 }
             }
             5->{
                 if(resultCode==Activity.RESULT_OK && data!=null){
-                    image5=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!)
+                    val imagePath=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!).path
+                    image5=File(BitmapUtil.compressImage(imagePath))
                     imageClick(data.data!!,picture5,picture6,6)
                     imageCount++
                 }
             }
             6->{
                 if(resultCode==Activity.RESULT_OK && data!=null){
-                    image6=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!)
+                    val imagePath=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!).path
+                    image6=File(BitmapUtil.compressImage(imagePath))
+
                     picture6.setImageURI(data.data)
                     picture6.setOnClickListener {  }
                     imageCount++
@@ -320,7 +328,6 @@ class AddPostActivity : BaseActivity() {
         val printContent:EditText=findViewById(R.id.printContent)
         var imageMethod=false
 
-
         //形成帖子
         val user=User_IO.get_userinfos(this)
         val nickname=user[2]
@@ -328,24 +335,24 @@ class AddPostActivity : BaseActivity() {
             val post= PostUp(nickname,
                 post_title = "${printTitle.text}",content = "${printContent.text}")
             //如有图片，上传并将服务器返回的图片地址添加到帖子子里
-            if(image1!=File("")){
+            if(image1.path!=""){
                 imageMethod=uploadImageAndPost(image1,post)
                 uriFile?.let { Log.d("after upload,uriFile", it) }
                 Log.d("after upload,picture_1",post.picture_1.toString())
             }
-            if(image2!=File("")){
+            if(image2.path!=""){
                 uploadImageAndPost(image2,post)
             }
-            if(image3!=File("")){
+            if(image3.path!=""){
                 uploadImageAndPost(image3,post)
             }
-            if(image4!=File("")){
+            if(image4.path!=""){
                 uploadImageAndPost(image4,post)
             }
-            if(image5!=File("")){
+            if(image5.path!=""){
                 uploadImageAndPost(image5,post)
             }
-            if(image6!=File("")){
+            if(image6.path!=""){
                 uploadImageAndPost(image6,post)
             }
             //根据板块不同，调用不同的add接口

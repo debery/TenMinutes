@@ -1,22 +1,39 @@
 package com.example.tenminutestest.ui.main.fragment
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.example.tenminutestest.BitmapUtil
 import com.example.tenminutestest.MyApplication
 import com.example.tenminutestest.R
 import com.example.tenminutestest.User_IO
+import com.example.tenminutestest.logic.ContentUriUtil
+import com.example.tenminutestest.logic.model.FileResponse
+import com.example.tenminutestest.logic.model.PostResponse
+import com.example.tenminutestest.logic.model.UserData
+import com.example.tenminutestest.logic.network.FileService
+import com.example.tenminutestest.logic.network.PostService
+import com.example.tenminutestest.logic.network.ServiceCreator
+import com.example.tenminutestest.logic.network.UserService
 import com.example.tenminutestest.ui.main.MainActivity
 import com.example.tenminutestest.ui.other.Config
 import com.example.tenminutestest.ui.other.Punch_pt
 import com.example.tenminutestest.ui.other.log.DeleteFile
 import com.example.tenminutestest.ui.other.log.LogActivity
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
+import javax.xml.transform.OutputKeys
 
 class UserTabFragment:Fragment() {
     //配置两ListView
@@ -41,6 +58,15 @@ class UserTabFragment:Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+
+        val imageView:ImageView=view?.findViewById(R.id.face)!!
+        val userList=User_IO.get_userinfos(MyApplication.context)
+
+        if(userList.size==4){
+            Glide.with(activity).load(userList[3]).into(imageView)
+            Log.d("userlist[3]","${userList[3]}")
+        }
 
         first = view?.findViewById(R.id.Firstlist)
         second = view?.findViewById(R.id.Secondlist)
@@ -67,8 +93,115 @@ class UserTabFragment:Fragment() {
             nickname.text=user[2]
             id.text=user[1]
         }
+        //上传头像
+        val avatar:ImageView=view?.findViewById(R.id.face)!!
+        avatar.setOnClickListener {
+            showAvatarWindow()
+        }
+    }
+    private fun showAvatarWindow(){
+
+        val contentView= LayoutInflater.from(activity).inflate(R.layout.pop_avatar,null)
+        val popupWindow= PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        popupWindow.isFocusable=true
+        popupWindow.setBackgroundDrawable(ColorDrawable(0x800000))
+        popupWindow.isOutsideTouchable=true
+        popupWindow.isTouchable=true
+
+        popupWindow.showAtLocation(contentView, Gravity.BOTTOM,0,0)
+        //弹出窗口后将背景虚化
+//        backgroundAlpha(0.5f)
+        popupWindow.setOnDismissListener {
+            popupWindow.dismiss()
+//            backgroundAlpha(1f)
+        }
+
+        //获取popupWindow里的控件之前，使用view保存R.layout.pop生成的contentView
+        val view: View =popupWindow.contentView
+        val btnRefresh:Button=view.findViewById(R.id.btnRefresh)
+        val btnCancel:Button=view.findViewById(R.id.btnCancel)
+
+        btnCancel.setOnClickListener {
+            popupWindow.dismiss()
+//            backgroundAlpha(1f)
+        }
+
+        btnRefresh.setOnClickListener {
+            popupWindow.dismiss()
+            val intent=Intent( Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.type="image/*"
+            startActivityForResult(intent,1)
+
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            1->{
+                if(data?.data!=null){
+                    //上传文件且修改头像
+                    val user=User_IO.get_userinfos(activity)
+                    val uid=user[1]
+                    //获取图片真实地址
+                    val imageFile=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!)
+                    //压缩图片
+                    val file=File(BitmapUtil.compressImage(imageFile.path))
+                    //剪切圆形
+
+                    val fileService= ServiceCreator.create2(FileService::class.java)//文件接口动态代理
+                    //创建接口需要的参数
+                    val requestFile= file.asRequestBody("image/jpg".toMediaTypeOrNull())
+                    val body= MultipartBody.Part.createFormData("file","$uid"+file.name,requestFile)
+                    fileService.uploadFile(body).enqueue(object :Callback<FileResponse>{
+                        override fun onResponse(
+                            call: Call<FileResponse>,
+                            response: Response<FileResponse>
+                        ) {
+                            //上传成功，修改控件与本地文件
+                            if(response.isSuccessful){
+                                Toast.makeText(activity,"上传头像成功",Toast.LENGTH_SHORT).show()
+                                val avatar:ImageView=view?.findViewById(R.id.face)!!
+                                val path=response.body()?.fileDownloadUri
+                                Glide.with(activity).load(path).into(avatar)
+                                User_IO.reSaveInfo(path,MyApplication.context)
+                                //通知后台用户数据更改
+                                val userService= ServiceCreator.create(UserService::class.java)//用户数据接口动态代理
+                                val userUp=UserData(uid,user_avatar = path)
+                                //通过PostResponse接收一般返回数据
+                                userService.updateAvatar(userUp).enqueue(object :Callback<PostResponse>{
+                                    override fun onResponse(
+                                        call: Call<PostResponse>,
+                                        response: Response<PostResponse>
+                                    ) {
+                                        Log.d("updateUserAvatar",response.isSuccessful.toString())
+                                    }
+
+                                    override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+                                        t.printStackTrace()
+                                    }
+
+                                })
+                            }
+
+
+
+                        }
+
+                        override fun onFailure(call: Call<FileResponse>, t: Throwable) {
+                            t.printStackTrace()
+                        }
+
+                    })
+                }
+            }
+        }
 
     }
+
+    //设置透明度的代码
+
 
 //    fun config(view: View?) {
 //        val intent = Intent(activity, Config::class.java)
