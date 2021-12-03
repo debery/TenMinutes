@@ -1,4 +1,4 @@
-package com.example.tenminutestest;
+package com.example.tenminutestest.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +9,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 
 import androidx.exifinterface.media.ExifInterface;
+
+import com.example.tenminutestest.MyApplication;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

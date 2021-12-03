@@ -25,7 +25,14 @@
             android:id="@+id/btnAlbum"
             android:text="从相册选择"
             android:background="#FFFFFF"
-            android:layout_marginBottom="10dp"/>
+            />
+        <Button
+            android:id="@+id/btnVideo"
+            android:text="上传视频"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginBottom="12dp"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -82,10 +82,7 @@ class TeachTabFragment: Fragment() {
                 val list=response.body()?.items
                 Log.d("internet,post",list.toString())
                 if (list != null) {
-                    for(post in list){
-                        Log.d("picture","nickname is "+post.nickname)
-                        Log.d("picture","picture is "+post.picture_1)
-                    }
+
                     postList.clear()
                     postList.addAll(response.body()?.items!!)
                     postList.reverse()

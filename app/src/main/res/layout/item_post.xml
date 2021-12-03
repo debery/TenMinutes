@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+
+    >
 
     <LinearLayout
         android:orientation="horizontal"
@@ -126,12 +128,16 @@
                 android:layout_margin="5dp"/>
         </LinearLayout>
     </LinearLayout>
-    <View
+    <cn.jzvd.JzvdStd
+        android:visibility="gone"
+        android:id="@+id/video"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/white"/>
+        android:layout_gravity="center"
+        android:layout_height="220dp"
+        />
 
     <LinearLayout
+        android:layout_marginTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

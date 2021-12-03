@@ -12,10 +12,6 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.tenminutestest.BaseActivity
-import com.example.tenminutestest.MyApplication
-import com.example.tenminutestest.R
-import com.example.tenminutestest.User_IO
 import com.example.tenminutestest.logic.model.*
 import com.example.tenminutestest.logic.network.CommentService
 import com.example.tenminutestest.logic.network.ServiceCreator
@@ -24,10 +20,21 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import cn.jzvd.JzvdStd
+import com.example.tenminutestest.*
+import com.example.tenminutestest.util.User_IO
+
 
 class DetailsOfPostActivity:BaseActivity() {
 
     private var commentList:List<Comment>?=null
+
+
+    //传感器
+    //传感器
+//    private var mSensorManage: SensorManager? = null
+//    private var mSensorEventListener: JCAutoFullscreenListener? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +96,7 @@ class DetailsOfPostActivity:BaseActivity() {
 
         if(commentText.isNotEmpty()){
             if(User_IO.get_userinfos(this)!=null){
-                val nickname=User_IO.get_userinfos(this)[2]
+                val nickname= User_IO.get_userinfos(this)[2]
                 val com=CommentUp(id,commentText,nickname)
                 val service=ServiceCreator.create(CommentService::class.java)
                 service.addCommentOfArts(com).enqueue(object :Callback<CommentResponse>{
@@ -155,9 +162,11 @@ class DetailsOfPostActivity:BaseActivity() {
         val goodText: TextView =findViewById(R.id.dianzanTextView)
         val commentIcon:Button=findViewById(R.id.commentIcon)
         val commentText:TextView=findViewById(R.id.commentText)
+        //视频
+        val videoView:JzvdStd=findViewById(R.id.video)
 
         nickname.text=post.nickname
-        //if(post.user_avatar!=null)Glide.with(MyApplication.context).load(post.user_avatar).into(holder.userAvatar)
+        if(post.user_avatar!=null)Glide.with(MyApplication.context).load(post.user_avatar).into(avatar)
         postTitle.text=post.post_title
         content.text=post.content
         time.text=post.time
@@ -251,6 +260,37 @@ class DetailsOfPostActivity:BaseActivity() {
         pictureItem6.setOnClickListener {
             clickPicture(post,5)
         }
+        Log.d("adapter",post.nickname+"  "+post.videos.toString())
+        if(post.videos!=null&&post.videos!=""&&post.videos!="String"){
+            videoView.visibility=View.VISIBLE
+            videoView.setUp(post.videos,"", JzvdStd.SCREEN_NORMAL)
+            Glide.with(MyApplication.context).load(R.drawable.maid).into(videoView.thumbImageView)
+//            //初始化
+//            IjkMediaPlayer.loadLibrariesOnce(null)
+//            IjkMediaPlayer.native_profileBegin("libijkplayer.so")
+//            videoView.visibility=View.VISIBLE
+//            //监听
+//            videoView.setListener(object :IjkVideoView.VideoPlayerListener(){
+//                override fun onPrepared(p0: IMediaPlayer?) {
+//                    Log.d("onPrepare","执行")
+//                    p0?.start()
+//
+//                }
+//
+//                override fun onCompletion(p0: IMediaPlayer?) {
+//                    Log.d("adapter","onCompletion")
+//                }
+//
+//                override fun onError(p0: IMediaPlayer?, p1: Int, p2: Int): Boolean {
+//                    Toast.makeText(MyApplication.context,"播放失败",Toast.LENGTH_SHORT).show()
+//                    return false
+//                }
+//            })
+//
+//            videoView.setPath(post.videos)
+//            videoView.start()
+        }
+
     }
 
     private fun clickPicture(post: PostB, i:Int){
@@ -293,3 +333,30 @@ class DetailsOfPostActivity:BaseActivity() {
 
     }
 }
+//    override fun onResume() {
+//        super.onResume()
+//        //注册传感器
+//        val sensor: Sensor = mSensorManage!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+//        mSensorManage!!.registerListener(
+//            mSensorEventListener,
+//            sensor,
+//            SensorManager.SENSOR_DELAY_NORMAL
+//        )
+//    }
+
+//    override fun onPause() {
+//        super.onPause()
+//
+//        //取消注册传感器
+//        mSensorManage!!.unregisterListener(mSensorEventListener)
+//        JCVideoPlayer.releaseAllVideos()
+//    }
+//
+//    override fun onBackPressed() {
+//        //点击返回键后还能进行播放
+//        if (JCVideoPlayer.backPress()) {
+//            return
+//        }
+//        super.onBackPressed()
+//    }
+//}

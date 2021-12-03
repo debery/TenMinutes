@@ -46,7 +46,12 @@ dependencies {
     implementation files('libs/mysql-connector-java-5.1.49.jar')
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     testImplementation 'junit:junit:4.+'
+    
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+
+//jiaoziPlayer
+    implementation'cn.jzvd:jiaozivideoplayer:7.0.4'
+
 
 }

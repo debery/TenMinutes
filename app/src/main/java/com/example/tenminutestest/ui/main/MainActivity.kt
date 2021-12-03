@@ -8,20 +8,11 @@ import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.example.tenminutestest.BaseActivity
-import com.example.tenminutestest.MyApplication
-import com.example.tenminutestest.R
-import com.example.tenminutestest.User_IO
+import com.example.tenminutestest.*
 import com.example.tenminutestest.logic.RequestInRun
-import com.example.tenminutestest.logic.model.PostResponse
-import com.example.tenminutestest.logic.model.User
-import com.example.tenminutestest.logic.network.ServiceCreator
-import com.example.tenminutestest.logic.network.UserService
 import com.example.tenminutestest.ui.main.fragment.*
 import com.example.tenminutestest.ui.other.log.LogActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.tenminutestest.util.User_IO
 
 
 class MainActivity : BaseActivity() {
@@ -36,31 +27,30 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //User_IO.saveinfos("000721","0d000721","绫地宁宁", MyApplication.context)
-
-        val user= User("区贺铭","00000715")
-        val userService=ServiceCreator.createOHM(UserService::class.java)
-        userService.ouheming(user).enqueue(object :Callback<PostResponse>{
-            override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {
-                Toast.makeText(this@MainActivity,"成功",Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                Toast.makeText(this@MainActivity,"失败",Toast.LENGTH_SHORT).show()
-            }
-
-        })
+//
+//        val user= User("区贺铭","00000715")
+//        val userService=ServiceCreator.createOHM(UserService::class.java)
+//        userService.ouheming(user).enqueue(object :Callback<PostResponse>{
+//            override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {
+//                Toast.makeText(this@MainActivity,"成功",Toast.LENGTH_SHORT).show()
+//            }
+//
+//            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+//                Toast.makeText(this@MainActivity,"失败",Toast.LENGTH_SHORT).show()
+//            }
+//
+//        })
         //移除出一键全部退出的activities列表
         activityRemove(this)
+
 
         //获取文件读写权限
         RequestInRun().verifyStoragePermissions(this)
         //跳转到登录界面
-        if(User_IO.get_userinfos(this)==null){
-            val intent= Intent(this, LogActivity::class.java)
-            startActivity(intent)
-        }
+        val intent= Intent(this, LogActivity::class.java)
+        if(User_IO.get_userinfos(this)==null) startActivity(intent)
         else{
-            println("error")
+            if(User_IO.get_userinfos(this)[4]=="0") startActivity(intent)
         }
 
         //初始化布局，将fragment创建，add并hide

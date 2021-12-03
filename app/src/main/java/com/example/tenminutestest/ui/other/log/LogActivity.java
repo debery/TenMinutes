@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.example.tenminutestest.BaseActivity;
 import com.example.tenminutestest.R;
-import com.example.tenminutestest.User_IO;
+import com.example.tenminutestest.util.User_IO;
 import com.example.tenminutestest.ui.main.MainActivity;
 
 import java.sql.Connection;
@@ -146,16 +146,18 @@ public class LogActivity extends BaseActivity {        //要连接的数据库ur
                             Toast.makeText(getApplicationContext(), "登陆成功", Toast.LENGTH_SHORT).show();
                             String edit_name=U_id.getString("user_name");
 
-                            Intent intent=new Intent(LogActivity.this, MainActivity.class);
-                            intent.putExtra("zhanghao",edit_name);
-                            startActivity(intent);
-                            if(User_IO.saveinfos(edit_id,edit_password,edit_name,LogActivity.this)){
+
+                            if(User_IO.saveinfos(edit_id,edit_password,edit_name,null,"1",LogActivity.this)){
+
                                 System.out.println("写入成功");
                                 List<String> userList=User_IO.get_userinfos(LogActivity.this);   ////////////////读入文档的
                                 System.out.println(userList.get(0)+":"+userList.get(1)+":"+userList.get(2));       ///////读入文档的
+                                Intent intent=new Intent(LogActivity.this, MainActivity.class);
+                                startActivity(intent);
                             }
                             else {
                                 System.out.println("写入失败");
+                                Toast.makeText(LogActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
                             }
                         }
 

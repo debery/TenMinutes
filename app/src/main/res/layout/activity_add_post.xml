@@ -60,6 +60,7 @@
         android:maxLines="10"
         android:hint="此刻的想法"/>
     <LinearLayout
+        android:id="@+id/pictureLayout1"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -96,7 +97,7 @@
             android:contentDescription="添加图片"/>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/addPostActivityPictureLayout"
+        android:id="@+id/pictureLayout2"
         android:visibility="invisible"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
@@ -133,6 +134,12 @@
             android:src="@drawable/add_picture"
             android:contentDescription="添加图片"/>
     </LinearLayout>
+    <VideoView
+        android:id="@+id/video"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="220dp"
+        android:visibility="gone"/>
     <View
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"

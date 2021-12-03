@@ -46,7 +46,6 @@
             android:layout_height="75dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/personpic"
             android:background="@color/white"
 
             />

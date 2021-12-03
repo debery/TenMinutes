@@ -84,10 +84,7 @@ class ArtsTabFragment: Fragment() {
                 Log.d("post arts list","success is "+response.isSuccessful)
                 val list=response.body()?.items
                 if (list != null) {
-                    for(post in list){
-                        Log.d("picture","nickname is "+post.nickname)
-                        Log.d("picture","picture is "+post.picture_1)
-                    }
+
                     postList.clear()
                     postList.addAll(response.body()?.items!!)
                     postList.reverse()

@@ -104,10 +104,7 @@ class SportTabFragment:Fragment() {
                 Log.d("post","item"+response.body()?.items)
                 val list=response.body()?.items
                 if (list != null) {
-                    for(post in list){
-                        Log.d("picture","nickname is "+post.nickname)
-                        Log.d("picture","picture is "+post.picture_1)
-                    }
+
                     postList.clear()
                     postList.addAll(response.body()?.items!!)
                     postList.reverse()

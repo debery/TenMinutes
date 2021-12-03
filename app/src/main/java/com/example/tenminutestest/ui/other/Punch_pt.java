@@ -1,45 +1,21 @@
 package com.example.tenminutestest.ui.other;
 
 import com.example.tenminutestest.R;
-import com.example.tenminutestest.ui.main.fragment.UserTabFragment;
+import com.example.tenminutestest.ui.main.MainActivity;
 import com.google.gson.annotations.SerializedName;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.TimeZone;
-
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -83,11 +59,6 @@ public class Punch_pt extends AppCompatActivity {
         int day=mCalendar.getDayOfMonth(yeartype,mMonth);  //判断月份所含天数
         int mway=calendar.get(Calendar.DAY_OF_WEEK);   //获取星期几
 
-
-        for(mMonth=mMonth;mMonth<13;) {
-            mDay=1;
-            for (mDay = mDay; mDay < day + 1;) {
-
                 HttpUtil getsuccess=new HttpUtil();
                 getsuccess.sendOKHttp(geturl1, new Callback() {
                     @Override
@@ -101,11 +72,9 @@ public class Punch_pt extends AppCompatActivity {
                         //使用gson接收数据
                         Gson gson=new Gson();
                         //将json的{}类数据用fromJson转换成数组存储，存储方式为键值对
-                        List<responseresult> getresponseresultOfsuccess=gson.fromJson(reponseStr, new TypeToken<List<responseresult>>(){}.getType());
-                        for(responseresult success:getresponseresultOfsuccess) {
-                            String response_success=success.getSuccess();
+                        responseresult getresponseresultOfsucceess=gson.fromJson(reponseStr,responseresult.class);
                             //此处写入接口，当发出信息的年份、月份、日期能够与mYear、mNonth、mDay相等时，替换打卡页下方日历图片并将 Text+1
-                            if(response_success=="true")
+                            if(getresponseresultOfsucceess.getSuccess()=="true")
                             {
                                 num.setText(++takenumber);
                                 if(1==mway)
@@ -138,9 +107,7 @@ public class Punch_pt extends AppCompatActivity {
                                 }
                             }
                         }
-                    }
                 });
-
 
                 if(mway==1)
                 {
@@ -153,17 +120,16 @@ public class Punch_pt extends AppCompatActivity {
                     sta_picture.setBackground(getDrawable(R.drawable.staurday));
                     sun_picture.setBackground(getDrawable(R.drawable.sunday));
                 }
-
             }
-        }
-    }
+
     public void backmine(View view) {
-        Intent intent=new Intent(Punch_pt.this, UserTabFragment.class);
+        Intent intent=new Intent(Punch_pt.this, MainActivity.class);
+        intent.putExtra("id",4);
         startActivity(intent);
     }
 
     class HttpUtil {
-        public void sendOKHttp(String address,okhttp3.Callback callback)
+        public void sendOKHttp(String address, Callback callback)
         {
             //创建okhttpClient对象
             OkHttpClient okHttpClient=new OkHttpClient();

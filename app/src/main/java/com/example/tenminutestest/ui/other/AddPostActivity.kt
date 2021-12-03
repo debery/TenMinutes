@@ -27,8 +27,8 @@ import com.example.tenminutestest.logic.RequestInRun
 import okhttp3.RequestBody.Companion.asRequestBody
 import androidx.core.app.ActivityCompat
 import com.example.tenminutestest.*
-import android.os.FileUtils
-import java.nio.file.FileSystem
+import com.example.tenminutestest.util.BitmapUtil
+import com.example.tenminutestest.util.User_IO
 
 
 class AddPostActivity : BaseActivity() {
@@ -39,6 +39,7 @@ class AddPostActivity : BaseActivity() {
     private var image4=File("")
     private var image5=File("")
     private var image6=File("")
+    private var video=File("")
     //这两个用于后面判定帖子的图片执行代码
     private val imageList=ArrayList<File>()
     private var imageCount=0
@@ -87,7 +88,6 @@ class AddPostActivity : BaseActivity() {
             finish()
         }
         picture1.setOnClickListener {
-
             showPicturePopWindow()
         }
         choosePlace.setOnClickListener {
@@ -191,6 +191,7 @@ class AddPostActivity : BaseActivity() {
         val btnCamera:Button=view.findViewById(R.id.btnCamera)
         val btnAlbum:Button=view.findViewById(R.id.btnAlbum)
         val btnCancel:Button=view.findViewById(R.id.btnCancel)
+        val btnVideo:Button=view.findViewById(R.id.btnVideo)
 
         btnCancel.setOnClickListener {
             popupWindow.dismiss()
@@ -207,6 +208,14 @@ class AddPostActivity : BaseActivity() {
             startActivityForResult(intent,1)
 
         }
+        btnVideo.setOnClickListener {
+            popupWindow.dismiss()
+            RequestInRun().verifyStoragePermissions(this)
+            val intent=Intent( Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.type="video/*"
+            startActivityForResult(intent,7)
+        }
 
     }
     //设置透明度的代码
@@ -220,12 +229,15 @@ class AddPostActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        val layout1:LinearLayout=findViewById(R.id.pictureLayout1)
+        val layout2:LinearLayout=findViewById(R.id.pictureLayout2)
         val picture1:ImageView=findViewById(R.id.picture1)
         val picture2:ImageView=findViewById(R.id.picture2)
         val picture3:ImageView=findViewById(R.id.picture3)
         val picture4:ImageView=findViewById(R.id.picture4)
         val picture5:ImageView=findViewById(R.id.picture5)
         val picture6:ImageView=findViewById(R.id.picture6)
+        val videoView:VideoView=findViewById(R.id.video)
 
 
         when(requestCode){
@@ -273,8 +285,8 @@ class AddPostActivity : BaseActivity() {
             }
             3->{
                 if(resultCode==Activity.RESULT_OK && data!=null){
-                    val layout:LinearLayout=findViewById(R.id.addPostActivityPictureLayout)
-                    layout.visibility=View.VISIBLE
+
+                    layout2.visibility=View.VISIBLE
                     val imagePath=File(ContentUriUtil().getPath(MyApplication.context,data.data!!)!!).path
                     image3=File(BitmapUtil.compressImage(imagePath))
                     imageClick(data.data!!,picture3,picture4,4)
@@ -307,6 +319,21 @@ class AddPostActivity : BaseActivity() {
                     imageCount++
                 }
             }
+            7->{
+                if(resultCode==Activity.RESULT_OK && data!=null){
+                    val path=ContentUriUtil().getPath(MyApplication.context,data?.data!!)
+                    video=File(path)
+//                    val fileService=ServiceCreator.create2(FileService::class.java)
+//                    val requestFile= video.asRequestBody("video/mp4".toMediaTypeOrNull())
+//                    val body= MultipartBody.Part.createFormData("file",video.name,requestFile)
+                    videoView.visibility=View.VISIBLE
+                    videoView.setMediaController(MediaController(this))
+                    videoView.setVideoURI(Uri.parse(path))
+                    layout1.visibility=View.GONE
+                    layout2.visibility=View.GONE
+
+                }
+            }
         }
     }
 
@@ -327,12 +354,18 @@ class AddPostActivity : BaseActivity() {
         val printTitle:EditText=findViewById(R.id.printTitle)
         val printContent:EditText=findViewById(R.id.printContent)
         var imageMethod=false
+        var videoMethod=false
 
         //形成帖子
-        val user=User_IO.get_userinfos(this)
+        val user= User_IO.get_userinfos(this)
         val nickname=user[2]
+        val avatar:String? = if(user.size>3&&user[3]!=""&&user[3]!="null"){
+            user[3]
+        }else{
+            null
+        }
         if(nickname!=null){
-            val post= PostUp(nickname,
+            val post= PostUp(nickname,avatar,
                 post_title = "${printTitle.text}",content = "${printContent.text}")
             //如有图片，上传并将服务器返回的图片地址添加到帖子子里
             if(image1.path!=""){
@@ -355,9 +388,13 @@ class AddPostActivity : BaseActivity() {
             if(image6.path!=""){
                 uploadImageAndPost(image6,post)
             }
+            if(video.path!=""){
+                uploadVideoAndPost(video,post)
+                videoMethod=true
+            }
             //根据板块不同，调用不同的add接口
             val postService=ServiceCreator.create(PostService::class.java)
-            if(!imageMethod){
+            if(!imageMethod&&!videoMethod){
                 when(plank){
                     teaching->{
                         postService.addPostOfTeaching(post).enqueue(object : Callback<PostResponse> {
@@ -365,7 +402,6 @@ class AddPostActivity : BaseActivity() {
                                 call: Call<PostResponse>,
                                 response: Response<PostResponse>
                             ) {
-                                val data:PostResponse?=response.body()
                                 Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
                                 Log.d("AddPostTeaching", response.isSuccessful.toString())
                                 val intent=Intent()
@@ -429,8 +465,9 @@ class AddPostActivity : BaseActivity() {
             Toast.makeText(this,"账号不存在，请先登录",Toast.LENGTH_SHORT).show()
         }
 
-
     }
+
+    //多图反复调用此方法，但只执行一次上传
     private fun uploadImageAndPost(image:File,post: PostUp):Boolean{
 
         val fileService=ServiceCreator.create2(FileService::class.java)
@@ -532,4 +569,90 @@ class AddPostActivity : BaseActivity() {
 
     }
 
+    private fun uploadVideoAndPost(video:File,post: PostUp){
+        //动态代理，上传视频使用fileSerVice，上传帖子使用postService
+        val fileService=ServiceCreator.create2(FileService::class.java)
+        val postService=ServiceCreator.create(PostService::class.java)
+        //创建接口需要的参数
+        val requestFile= video.asRequestBody("video/mp4".toMediaTypeOrNull())
+        val body=MultipartBody.Part.createFormData("file",video.name,requestFile)
+        fileService.uploadFile(body).enqueue(object :Callback<FileResponse>{
+            override fun onResponse(call: Call<FileResponse>, response: Response<FileResponse>) {
+                Log.d("AddActivity.uploadVideo",response.isSuccessful.toString())
+                post.videos=response.body()?.fileDownloadUri
+                when(plank){
+                    teaching->{
+                        postService.addPostOfTeaching(post).enqueue(object : Callback<PostResponse> {
+                            override fun onResponse(
+                                call: Call<PostResponse>,
+                                response: Response<PostResponse>
+                            ) {
+                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
+                                Log.d("AddPostTeaching", response.isSuccessful.toString())
+                                val intent=Intent()
+                                intent.putExtra("send",true)
+                                setResult(1,intent)
+                                finish()
+                            }
+
+                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+                                t.printStackTrace()
+                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }
+                    arts->{
+                        postService.addPostOfArts(post).enqueue(object : Callback<PostResponse> {
+                            override fun onResponse(
+                                call: Call<PostResponse>,
+                                response: Response<PostResponse>
+                            ) {
+                                val data:PostResponse?=response.body()
+                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
+                                Log.d("AddPostArts", response.isSuccessful.toString())
+                                val intent=Intent()
+                                intent.putExtra("send",true)
+                                setResult(2,intent)
+                                finish()
+                            }
+
+                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+                                t.printStackTrace()
+                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
+                            }
+                        })
+
+                    }
+                    sport->{
+                        postService.addPostOfSport(post).enqueue(object : Callback<PostResponse> {
+                            override fun onResponse(
+                                call: Call<PostResponse>,
+                                response: Response<PostResponse>
+                            ) {
+                                val data:PostResponse?=response.body()
+                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
+                                Log.d("AddPostSport", response.isSuccessful.toString())
+                                val intent=Intent()
+                                intent.putExtra("send",true)
+                                setResult(3,intent)
+                                finish()
+                            }
+
+                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+                                t.printStackTrace()
+                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }
+                }
+
+            }
+
+            override fun onFailure(call: Call<FileResponse>, t: Throwable) {
+                t.printStackTrace()
+                Toast.makeText(this@AddPostActivity,"上传视频失败",Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
 }

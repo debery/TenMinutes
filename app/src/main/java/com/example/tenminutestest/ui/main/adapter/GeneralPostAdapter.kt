@@ -1,18 +1,20 @@
 package com.example.tenminutestest.ui.main.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import cn.jzvd.JzvdStd
 import com.bumptech.glide.Glide
 import com.example.tenminutestest.MyApplication
 import com.example.tenminutestest.R
 import com.example.tenminutestest.logic.model.PostB
 import com.example.tenminutestest.ui.other.ImageShowActivity
 import com.example.tenminutestest.ui.other.postdetail.DetailsOfPostActivity
-
 
 
 class GeneralPostAdapter(private val postList:List<PostB>):RecyclerView.Adapter<GeneralPostAdapter.ViewHolder>() {
@@ -48,6 +50,9 @@ class GeneralPostAdapter(private val postList:List<PostB>):RecyclerView.Adapter<
         val agreedIcon: Button =view.findViewById(R.id.agreeIcon)
         val dianzan: TextView =view.findViewById(R.id.dianzanTextView)
         val commentIcon: Button =view.findViewById(R.id.commentIcon)
+
+        //视频
+        val videoView:JzvdStd=view.findViewById(R.id.video)
     }
 
     override fun onCreateViewHolder(
@@ -58,10 +63,11 @@ class GeneralPostAdapter(private val postList:List<PostB>):RecyclerView.Adapter<
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val post=postList[position]
         holder.nickname.text=post.nickname
-        //if(post.user_avatar!=null)Glide.with(MyApplication.context).load(post.user_avatar).into(holder.userAvatar)
+        if(post.user_avatar!=null&&post.user_avatar!="")
+            Glide.with(MyApplication.context).load(post.user_avatar).into(holder.userAvatar)
         holder.postTitle.text=post.post_title
         holder.content.text=post.content
         holder.time.text=post.time
@@ -123,6 +129,52 @@ class GeneralPostAdapter(private val postList:List<PostB>):RecyclerView.Adapter<
             )
             holder.dianzan.text="${post.goods}"
         }
+        Log.d("adapter",post.nickname+"  "+post.videos.toString())
+        if(post.videos!=null&&post.videos!=""&&post.videos!="String") {
+//            BeforeUseSomeCode.doIt()
+            holder.videoView.visibility=View.VISIBLE
+            holder.videoView.setUp(post.videos,"",JzvdStd.SCREEN_NORMAL)
+            holder.videoView.positionInList=position
+            Glide.with(MyApplication.context).load(R.drawable.maid).into(holder.videoView.thumbImageView)
+
+        }
+            //初始化
+//            IjkMediaPlayer.loadLibrariesOnce(null)
+//            IjkMediaPlayer.native_profileBegin("libijkplayer.so")
+//            holder.videoView.visibility = View.VISIBLE
+//            //监听
+//            holder.videoView.setListener(object : IjkVideoView.VideoPlayerListener() {
+//                override fun onPrepared(p0: IMediaPlayer?) {
+//                    Log.d("onPrepare", "执行")
+//                    p0?.start()
+//                    holder.videoView.visibility = View.VISIBLE
+//                }
+//
+//                override fun onCompletion(p0: IMediaPlayer?) {
+//                    Log.d("adapter", "onCompletion")
+//                }
+//
+//                override fun onError(p0: IMediaPlayer?, p1: Int, p2: Int): Boolean {
+//                    Toast.makeText(MyApplication.context, "播放失败", Toast.LENGTH_SHORT).show()
+//                    return false
+//                }
+//            })
+//
+//            holder.videoView.setPath(post.videos)
+
+
+//            BeforeUseSomeCode.doIt()
+//            holder.videoView.visibility=View.VISIBLE
+//            val setup=holder.videoView.setUp(post.videos, JCVideoPlayer.SCREEN_LAYOUT_LIST,"")
+//            if(setup){
+//                Glide.with(MyApplication.context).load(R.drawable.jc_loading).into(holder.videoView.thumbImageView)
+//            }
+//        }
+//        if(post.videos!=null&&post.videos!=""&&post.videos!="String"){
+//            holder.videoView.visibility=View.VISIBLE
+//            holder.videoView.setVideoURI(Uri.parse(post.videos))
+//            holder.videoView.setMediaController(MediaController(MyApplication.context))
+//        }
 
         //图片点击显示
         holder.pictureSingle.setOnClickListener{
