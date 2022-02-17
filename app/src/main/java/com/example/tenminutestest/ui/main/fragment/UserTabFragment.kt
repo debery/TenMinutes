@@ -16,7 +16,7 @@ import com.example.tenminutestest.R
 import com.example.tenminutestest.util.User_IO
 import com.example.tenminutestest.logic.ContentUriUtil
 import com.example.tenminutestest.logic.model.FileResponse
-import com.example.tenminutestest.logic.model.PostResponse
+import com.example.tenminutestest.logic.model.ListPostResponse
 import com.example.tenminutestest.logic.model.UserData
 import com.example.tenminutestest.logic.network.FileService
 import com.example.tenminutestest.logic.network.ServiceCreator
@@ -170,15 +170,15 @@ class UserTabFragment:Fragment() {
                                 val userService= ServiceCreator.create(UserService::class.java)//用户数据接口动态代理
                                 val userUp=UserData(uid,user_avatar = path)
                                 //通过PostResponse接收一般返回数据
-                                userService.updateAvatar(userUp).enqueue(object :Callback<PostResponse>{
+                                userService.updateAvatar(userUp).enqueue(object :Callback<ListPostResponse>{
                                     override fun onResponse(
-                                        call: Call<PostResponse>,
-                                        response: Response<PostResponse>
+                                        call: Call<ListPostResponse>,
+                                        response: Response<ListPostResponse>
                                     ) {
                                         Log.d("updateUserAvatar",response.isSuccessful.toString())
                                     }
 
-                                    override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+                                    override fun onFailure(call: Call<ListPostResponse>, t: Throwable) {
                                         t.printStackTrace()
                                     }
 

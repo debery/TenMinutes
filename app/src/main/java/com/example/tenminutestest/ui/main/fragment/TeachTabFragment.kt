@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tenminutestest.R
 import com.example.tenminutestest.logic.model.PostB
-import com.example.tenminutestest.logic.model.PostResponse
+import com.example.tenminutestest.logic.model.ListPostResponse
+import com.example.tenminutestest.logic.model.ListPostRequire
 import com.example.tenminutestest.logic.network.PostService
 import com.example.tenminutestest.logic.network.ServiceCreator
 import com.example.tenminutestest.ui.main.ShowButton
@@ -26,6 +27,8 @@ import retrofit2.Response
 class TeachTabFragment: Fragment() {
 
     private val postList=ArrayList<PostB>()
+
+    private val TEACH=1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +61,7 @@ class TeachTabFragment: Fragment() {
         postTeachingList()
         val recyclerView:RecyclerView?=view?.findViewById(R.id.recycler)
         recyclerView?.layoutManager=LinearLayoutManager(activity)
-        val adapter=GeneralPostAdapter(postList)
+        val adapter=GeneralPostAdapter(postList,TEACH)
         recyclerView?.adapter= adapter
 
         val btn: Button? = view?.findViewById(R.id.button)
@@ -73,14 +76,14 @@ class TeachTabFragment: Fragment() {
 
     private fun postTeachingList(){
         val postService= ServiceCreator.create(PostService::class.java)//获取动态代理
-        postService.listPostOfTeaching().enqueue(object : Callback<PostResponse> {
+        postService.getPosts(ListPostRequire("post_teaching")).enqueue(object : Callback<ListPostResponse> {
             override fun onResponse(
-                call: Call<PostResponse>,
-                response: Response<PostResponse>
+                call: Call<ListPostResponse>,
+                response: Response<ListPostResponse>
             ) {
                 Log.d("post teaching list","successful is "+response.isSuccessful)
                 val list=response.body()?.items
-                Log.d("internet,post",list.toString())
+                Log.d("internet,post_list",list.toString())
                 if (list != null) {
 
                     postList.clear()
@@ -89,18 +92,27 @@ class TeachTabFragment: Fragment() {
                     MainActivity().runOnUiThread {
                         val recyclerView:RecyclerView=view?.findViewById(R.id.recycler)!!
                         recyclerView.layoutManager=LinearLayoutManager(activity)
-                        recyclerView.adapter=GeneralPostAdapter(postList)
+                        recyclerView.adapter=GeneralPostAdapter(postList,TEACH)
                     }
                 }
             }
-
-            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+            override fun onFailure(call: Call<ListPostResponse>, t: Throwable) {
                 t.printStackTrace()
+                Log.d("teaching post","fail")
             }
 
         })
     }
-
+    
+    //暂时缺乏获取用户信息
+    private fun fromPostToPostB(){
+        for(post in postList){
+            post.userid
+            //根据userid获取头像昵称
+            post.user_avatar
+            post.nickname
+        }
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(data?.getBooleanExtra("send",false)==true){

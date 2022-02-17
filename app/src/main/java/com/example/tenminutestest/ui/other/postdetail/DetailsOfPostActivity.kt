@@ -22,6 +22,8 @@ import retrofit2.Response
 import java.util.*
 import cn.jzvd.JzvdStd
 import com.example.tenminutestest.*
+import com.example.tenminutestest.logic.network.PostService
+import com.example.tenminutestest.logic.touse.GoodUse
 import com.example.tenminutestest.util.User_IO
 
 
@@ -29,6 +31,7 @@ class DetailsOfPostActivity:BaseActivity() {
 
     private var commentList:List<Comment>?=null
 
+    private var flag:Int=0
 
     //传感器
     //传感器
@@ -38,9 +41,34 @@ class DetailsOfPostActivity:BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_post_details)
-
         val post=intent.getSerializableExtra("post_data") as PostB
+        setContentView(R.layout.activity_post_details)
+        flag=intent.getIntExtra("flag",0)
+//        val tableName=when(flag){
+//            1->"post_teaching"
+//            2->"post_arts"
+//            3->"post_sport"
+//            else->"notable"
+//        }
+//        if (tableName!="notable"){
+//            val service=ServiceCreator.create(PostService::class.java)
+//            service.getPost(GetPostRequire(post.post_id.toString(),tableName)).enqueue(object :Callback<GetPostResponse>{
+//                override fun onResponse(
+//                    call: Call<GetPostResponse>,
+//                    response: Response<GetPostResponse>
+//                ) {
+//                    post.goods=response.body()?.items?.goods
+//                }
+//
+//                override fun onFailure(call: Call<GetPostResponse>, t: Throwable) {
+//                    t.printStackTrace()
+//                }
+//
+//            })
+//        }
+
+
+
         initPost(post)
 
         getReply(post)//获取帖子的回复
@@ -91,18 +119,24 @@ class DetailsOfPostActivity:BaseActivity() {
 
     private fun addComment(post: PostB, commentText:String){
 
+        val post_id=post.post_id.toString()
 
-        val id=post.post_id
+        var plank=""
+        when(flag){
+            1->plank="comment_teaching"
+            2->plank="comment_arts"
+            3->plank="comment_sport"
+        }
 
         if(commentText.isNotEmpty()){
             if(User_IO.get_userinfos(this)!=null){
-                val nickname= User_IO.get_userinfos(this)[2]
-                val com=CommentUp(id,commentText,nickname)
+                val userid= User_IO.get_userinfos(this)[0].toInt()
+                val com=AddCommentRequire(userid.toString(),commentText,post_id,plank)
                 val service=ServiceCreator.create(CommentService::class.java)
-                service.addCommentOfArts(com).enqueue(object :Callback<CommentResponse>{
+                service.addComment(com).enqueue(object :Callback<AddCommentResponse>{
                     override fun onResponse(
-                        call: Call<CommentResponse>,
-                        response: Response<CommentResponse>
+                        call: Call<AddCommentResponse>,
+                        response: Response<AddCommentResponse>
                     ) {
 
                         Log.d("addCommentSuccess", response.isSuccessful.toString())
@@ -117,8 +151,10 @@ class DetailsOfPostActivity:BaseActivity() {
 
                     }
 
-                    override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<AddCommentResponse>, t: Throwable) {
                         t.printStackTrace()
+                        Log.d("addComment","fail")
+                        getReply(post)
                     }
 
                 })
@@ -218,18 +254,45 @@ class DetailsOfPostActivity:BaseActivity() {
         }
         //点击监听
         agreedLayout.setOnClickListener{
-            /* 待修改，应设置为每个用户只生效1次*/
-            goodIcon.setBackgroundResource(
-                R.drawable.dianzan_fill
-            )
-            goodText.text="${post.goods}"
+            val target:String=when(flag){
+                1->"post_teaching"
+                2->"post_arts"
+                3->"post_sport"
+                else->"error"
+            }
+            //
+            val user=User_IO.get_userinfos(MyApplication.context)
+            if(target!="error"){
+                GoodUse(post.post_id.toString(),user[0],"post_goods",target).add()
+                goodIcon.setBackgroundResource(
+                    R.drawable.dianzan_fill
+                )
+                val goods= post.goods?.toInt()?.plus(1).toString()
+                goodText.text=goods
+            }else{
+                Toast.makeText(MyApplication.context,"点赞出错了，请重试",Toast.LENGTH_SHORT).show()
+            }
+
         }
         goodIcon.setOnClickListener{
-            /* 待修改，应设置为每个用户只生效1次*/
-            goodIcon.setBackgroundResource(
-                R.drawable.dianzan_fill
-            )
-            goodText.text="${post.goods}"
+            val target:String=when(flag){
+                1->"post_teaching"
+                2->"post_arts"
+                3->"post_sport"
+                else->"error"
+            }
+            //
+            val user=User_IO.get_userinfos(MyApplication.context)
+            if(target!="error"){
+                GoodUse(post.post_id.toString(),user[0],"post_goods",target).add()
+                goodIcon.setBackgroundResource(
+                    R.drawable.dianzan_fill
+                )
+                val goods= post.goods?.toInt()?.plus(1).toString()
+                goodText.text=goods
+            }else{
+                Toast.makeText(MyApplication.context,"点赞出错了，请重试",Toast.LENGTH_SHORT).show()
+            }
         }
         commentLayout.setOnClickListener {
             popupWindowToReply(post)
@@ -303,10 +366,18 @@ class DetailsOfPostActivity:BaseActivity() {
 
     private fun getReply(post: PostB){
 
+        var plank:String=""
+        when(flag){
+            1->plank="comment_teaching"
+            2->plank="comment_arts"
+            3->plank="comment_sport"
+        }
+        val requireData=GetCommentsRequire(post.post_id,plank)
+
         val recyclerView:RecyclerView=findViewById(R.id.commentRecycler)
         recyclerView.layoutManager= LinearLayoutManager(this)
         val api=ServiceCreator.create(CommentService::class.java)
-        api.listCommentOfArts(post).enqueue(object :Callback<CommentResponse>{
+        api.getComments(requireData).enqueue(object :Callback<CommentResponse>{
             override fun onResponse(
                 call: Call<CommentResponse>,
                 response: Response<CommentResponse>

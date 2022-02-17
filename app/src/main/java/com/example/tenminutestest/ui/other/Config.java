@@ -24,6 +24,9 @@ public class Config extends BaseActivity {
     ListView config_list=null;
     TextView configItemname=null;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,10 @@ public class Config extends BaseActivity {
             User_IO.saveState("0", MyApplication.context);
             Intent intent = new Intent(Config.this, LogActivity.class);
             startActivity(intent);
+        });
+        Button back=findViewById(R.id.backmine);
+        back.setOnClickListener(view -> {
+            finish();
         });
     }
 

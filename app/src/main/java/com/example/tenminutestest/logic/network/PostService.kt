@@ -1,9 +1,7 @@
 package com.example.tenminutestest.logic.network
 
-import com.example.tenminutestest.logic.model.PostB
+import com.example.tenminutestest.logic.model.*
 import retrofit2.Call
-import com.example.tenminutestest.logic.model.PostUp
-import com.example.tenminutestest.logic.model.PostResponse
 
 
 import retrofit2.http.Body
@@ -12,27 +10,24 @@ import retrofit2.http.POST
 interface PostService {
 
     //add
-    @POST("PostOfTeaching/add")
-    fun addPostOfTeaching(@Body post: PostUp): Call<PostResponse>
-    @POST("PostOfArts/add")
-    fun addPostOfArts(@Body post: PostUp): Call<PostResponse>
-    @POST("PostOfSports/add")
-    fun addPostOfSport(@Body post: PostUp): Call<PostResponse>
+    @POST("post/postapost")
+    fun postPost(@Body post: AddPostRequire): Call<UniveResponse>
+
+    //get
+    @POST("post/getapost")
+    fun getPost(@Body message:GetPostRequire):Call<GetPostResponse>
 
     //list
-    @POST("PostOfTeaching/list")
-    fun listPostOfTeaching():Call<PostResponse>
-    @POST("PostOfArts/list")
-    fun listPostOfArts():Call<PostResponse>
-    @POST("PostOfSports/list")
-    fun listPostOfSport():Call<PostResponse>
+    @POST("post/getposts")
+    fun getPosts(@Body listPostRequire: ListPostRequire):Call<ListPostResponse>
 
     //delete
     @POST("PostOfTeaching/delete")
-    fun deletePostOfTeaching(@Body post: PostB):Call<PostResponse>
+    fun deletePostOfTeaching(@Body post: PostB):Call<ListPostResponse>
     @POST("PostOfArts/delete")
-    fun deletePostOfArts(@Body post: PostB):Call<PostResponse>
+    fun deletePostOfArts(@Body post: PostB):Call<ListPostResponse>
     @POST("PostOfSports/delete")
-    fun deletePostOfSport(@Body post: PostB):Call<PostResponse>
+    fun deletePostOfSport(@Body post: PostB):Call<ListPostResponse>
+
 
 }

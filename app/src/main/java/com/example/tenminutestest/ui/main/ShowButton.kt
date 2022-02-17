@@ -39,7 +39,7 @@ class ShowButton(private val frag:Int) {
         val btnAdd: Button =view.findViewById(R.id.btnAdd)
         val btnCancel: Button =view.findViewById(R.id.btnCancelInPop)
 
-        //点击”动态“
+        //点击”动态“，将frag所在传入
         btnAdd.setOnClickListener {
             popupWindow.dismiss()
             backgroundAlpha(1f,activity)

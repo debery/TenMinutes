@@ -13,11 +13,14 @@ import com.bumptech.glide.Glide
 import com.example.tenminutestest.MyApplication
 import com.example.tenminutestest.R
 import com.example.tenminutestest.logic.model.PostB
+import com.example.tenminutestest.logic.touse.GoodUse
 import com.example.tenminutestest.ui.other.ImageShowActivity
 import com.example.tenminutestest.ui.other.postdetail.DetailsOfPostActivity
+import com.example.tenminutestest.util.User_IO
 
 
-class GeneralPostAdapter(private val postList:List<PostB>):RecyclerView.Adapter<GeneralPostAdapter.ViewHolder>() {
+class GeneralPostAdapter(private val postList:List<PostB>,private val flag:Int):
+    RecyclerView.Adapter<GeneralPostAdapter.ViewHolder>() {
 
     /*该适配器将实现三个界面的不同帖子控件，目前只实现艺术板块，待日后修改
     * 2021.11.11
@@ -116,20 +119,50 @@ class GeneralPostAdapter(private val postList:List<PostB>):RecyclerView.Adapter<
         }
         //点击监听
         holder.agreedLayout.setOnClickListener{
-            //待修改，需要接口
-            holder.agreedIcon.setBackgroundResource(
-                R.drawable.dianzan_fill
-            )
-            holder.dianzan.text="${post.goods}"
+            val target:String=when(flag){
+                1->"post_teaching"
+                2->"post_arts"
+                3->"post_sport"
+                else->"error"
+            }
+            //
+            val user=User_IO.get_userinfos(MyApplication.context)
+            if(target!="error"){
+                GoodUse(post.post_id.toString(),user[0],"post_goods",target).add()
+                holder.agreedIcon.setBackgroundResource(
+                    R.drawable.dianzan_fill
+                )
+                val goods= post.goods?.toInt()?.plus(1).toString()
+                holder.dianzan.text=goods
+            }else{
+                Toast.makeText(MyApplication.context,"点赞出错了，请重试",Toast.LENGTH_SHORT).show()
+            }
+
         }
         holder.agreedIcon.setOnClickListener{
-
-            holder.agreedIcon.setBackgroundResource(
-                R.drawable.dianzan_fill
-            )
-            holder.dianzan.text="${post.goods}"
+            val target:String=when(flag){
+                1->"post_teaching"
+                2->"post_arts"
+                3->"post_sport"
+                else->"error"
+            }
+            //
+            val user=User_IO.get_userinfos(MyApplication.context)
+            if(target!="error"){
+                GoodUse(post.post_id.toString(),user[0],"post_goods",target).add()
+                holder.agreedIcon.setBackgroundResource(
+                    R.drawable.dianzan_fill
+                )
+                val goods= post.goods?.toInt()?.plus(1).toString()
+                holder.dianzan.text=goods
+            }else{
+                Toast.makeText(MyApplication.context,"点赞出错了，请重试",Toast.LENGTH_SHORT).show()
+            }
         }
-        Log.d("adapter",post.nickname+"  "+post.videos.toString())
+
+        Log.d("adapter/149l",post.userid+"  "+post.videos.toString()+"  "+post.goods)
+
+
         if(post.videos!=null&&post.videos!=""&&post.videos!="String") {
 //            BeforeUseSomeCode.doIt()
             holder.videoView.visibility=View.VISIBLE
@@ -212,6 +245,7 @@ class GeneralPostAdapter(private val postList:List<PostB>):RecyclerView.Adapter<
         holder.itemView.setOnClickListener {
             val intent = Intent(MyApplication.context, DetailsOfPostActivity::class.java)
             intent.putExtra("post_data", post)
+            intent.putExtra("flag",flag)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             MyApplication.context.startActivity(intent)
         }

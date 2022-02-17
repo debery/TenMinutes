@@ -1,8 +1,6 @@
 package com.example.tenminutestest.logic.network
 
 import com.example.tenminutestest.logic.model.FileResponse
-import com.example.tenminutestest.logic.model.PostResponse
-import com.example.tenminutestest.logic.model.PostUp
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call

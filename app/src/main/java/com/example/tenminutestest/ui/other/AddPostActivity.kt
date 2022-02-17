@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
-import com.example.tenminutestest.logic.model.PostResponse
 import com.example.tenminutestest.logic.network.PostService
 import com.example.tenminutestest.logic.network.ServiceCreator
 import retrofit2.Call
@@ -19,7 +18,7 @@ import retrofit2.Response
 import java.io.File
 import com.example.tenminutestest.logic.ContentUriUtil
 import com.example.tenminutestest.logic.model.FileResponse
-import com.example.tenminutestest.logic.model.PostUp
+import com.example.tenminutestest.logic.model.AddPostRequire
 import com.example.tenminutestest.logic.network.FileService
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -27,6 +26,7 @@ import com.example.tenminutestest.logic.RequestInRun
 import okhttp3.RequestBody.Companion.asRequestBody
 import androidx.core.app.ActivityCompat
 import com.example.tenminutestest.*
+import com.example.tenminutestest.logic.model.UniveResponse
 import com.example.tenminutestest.util.BitmapUtil
 import com.example.tenminutestest.util.User_IO
 
@@ -73,7 +73,7 @@ class AddPostActivity : BaseActivity() {
         val printContent:EditText=findViewById(R.id.printContent)
 
 
-        plank = intent.getIntExtra("fragment",1)//很奇怪，这里一直是0，待解决
+        plank = intent.getIntExtra("fragment",1)
         Log.d("addActivity",intent.getIntExtra("fragment",1).toString())//0
 
         when(plank){
@@ -358,6 +358,7 @@ class AddPostActivity : BaseActivity() {
 
         //形成帖子
         val user= User_IO.get_userinfos(this)
+        val userId:Int=user[0].toInt()
         val nickname=user[2]
         val avatar:String? = if(user.size>3&&user[3]!=""&&user[3]!="null"){
             user[3]
@@ -365,8 +366,8 @@ class AddPostActivity : BaseActivity() {
             null
         }
         if(nickname!=null){
-            val post= PostUp(nickname,avatar,
-                post_title = "${printTitle.text}",content = "${printContent.text}")
+            val post= AddPostRequire(userId,
+                "${printTitle.text}","${printContent.text}")
             //如有图片，上传并将服务器返回的图片地址添加到帖子子里
             if(image1.path!=""){
                 imageMethod=uploadImageAndPost(image1,post)
@@ -394,72 +395,31 @@ class AddPostActivity : BaseActivity() {
             }
             //根据板块不同，调用不同的add接口
             val postService=ServiceCreator.create(PostService::class.java)
+            when(plank){
+                teaching->post.tablename="post_teaching"
+                arts->post.tablename="post_arts"
+                sport->post.tablename="post_sports"
+            }
             if(!imageMethod&&!videoMethod){
-                when(plank){
-                    teaching->{
-                        postService.addPostOfTeaching(post).enqueue(object : Callback<PostResponse> {
-                            override fun onResponse(
-                                call: Call<PostResponse>,
-                                response: Response<PostResponse>
-                            ) {
-                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostTeaching", response.isSuccessful.toString())
-                                val intent=Intent()
-                                intent.putExtra("send",true)
-                                setResult(1,intent)
-                                finish()
-                            }
 
-                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                                t.printStackTrace()
-                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                            }
-                        })
+                postService.postPost(post).enqueue(object : Callback<UniveResponse> {
+                    override fun onResponse(
+                        call: Call<UniveResponse>,
+                        response: Response<UniveResponse>
+                    ) {
+                        Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
+                        Log.d("AddPostTeaching", response.isSuccessful.toString())
+                        val intent=Intent()
+                        intent.putExtra("send",true)
+                        setResult(1,intent)
+                        finish()
                     }
-                    arts->{
-                        postService.addPostOfArts(post).enqueue(object : Callback<PostResponse> {
-                            override fun onResponse(
-                                call: Call<PostResponse>,
-                                response: Response<PostResponse>
-                            ) {
-                                val data:PostResponse?=response.body()
-                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostArts", response.isSuccessful.toString())
-                                val intent=Intent()
-                                intent.putExtra("send",true)
-                                setResult(2,intent)
-                                finish()
-                            }
 
-                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                                t.printStackTrace()
-                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                            }
-                        })
-
+                    override fun onFailure(call: Call<UniveResponse>, t: Throwable) {
+                        t.printStackTrace()
+                        Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
                     }
-                    sport->{
-                        postService.addPostOfSport(post).enqueue(object : Callback<PostResponse> {
-                            override fun onResponse(
-                                call: Call<PostResponse>,
-                                response: Response<PostResponse>
-                            ) {
-                                val data:PostResponse?=response.body()
-                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostSport", response.isSuccessful.toString())
-                                val intent=Intent()
-                                intent.putExtra("send",true)
-                                setResult(3,intent)
-                                finish()
-                            }
-
-                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                                t.printStackTrace()
-                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                            }
-                        })
-                    }
-                }
+                })
             }
         }else{
             Toast.makeText(this,"账号不存在，请先登录",Toast.LENGTH_SHORT).show()
@@ -468,7 +428,7 @@ class AddPostActivity : BaseActivity() {
     }
 
     //多图反复调用此方法，但只执行一次上传
-    private fun uploadImageAndPost(image:File,post: PostUp):Boolean{
+    private fun uploadImageAndPost(image:File,post: AddPostRequire):Boolean{
 
         val fileService=ServiceCreator.create2(FileService::class.java)
         val postService=ServiceCreator.create(PostService::class.java)//动态代理
@@ -477,89 +437,47 @@ class AddPostActivity : BaseActivity() {
         val body=MultipartBody.Part.createFormData("file",image.name,requestFile)
         fileService.uploadFile(body).enqueue(object :Callback<FileResponse>{
             override fun onResponse(call: Call<FileResponse>, response: Response<FileResponse>) {
-                uriFile= response.body()?.fileDownloadUri.toString()
-                if(image==image1) {
-                    post.picture_1=uriFile
+                uriFile = response.body()?.fileDownloadUri.toString()
+                if (image == image1) {
+                    post.picture_1 = uriFile
                 }
-                if(image==image2) {
-                    post.picture_2=uriFile
+                if (image == image2) {
+                    post.picture_2 = uriFile
                 }
-                if(image==image3) {
-                    post.picture_3=uriFile
+                if (image == image3) {
+                    post.picture_3 = uriFile
                 }
-                if(image==image4) {
-                    post.picture_4=uriFile
+                if (image == image4) {
+                    post.picture_4 = uriFile
                 }
-                if(image==image5) {
-                    post.picture_5=uriFile
+                if (image == image5) {
+                    post.picture_5 = uriFile
                 }
-                if(image==image6) {
-                    post.picture_6=uriFile
+                if (image == image6) {
+                    post.picture_6 = uriFile
                 }
                 imageList.add(image)
                 Log.d("upload", uriFile!!)
 
+                if (imageList.size == imageCount)//只执行一次addPost
+                    postService.postPost(post).enqueue(object : Callback<UniveResponse> {
+                        override fun onResponse(
+                            call: Call<UniveResponse>,
+                            response: Response<UniveResponse>
+                        ) {
+                            val data: UniveResponse? = response.body()
+                            Toast.makeText(MyApplication.context, "发送成功", Toast.LENGTH_SHORT).show()
+                            Log.d("AddPostTeaching", response.isSuccessful.toString())
+                            finish()
+                        }
 
-                if(imageList.size==imageCount)//只执行一次addPost
-                when(plank){
-                    teaching->{
-                        postService.addPostOfTeaching(post).enqueue(object : Callback<PostResponse> {
-                            override fun onResponse(
-                                call: Call<PostResponse>,
-                                response: Response<PostResponse>
-                            ) {
-                                val data:PostResponse?=response.body()
-                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostTeaching", response.isSuccessful.toString())
-                                finish()
-                            }
+                        override fun onFailure(call: Call<UniveResponse>, t: Throwable) {
+                            t.printStackTrace()
+                            Toast.makeText(MyApplication.context, "发送失败", Toast.LENGTH_SHORT).show()
+                        }
+                    })
 
-                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                                t.printStackTrace()
-                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                            }
-                        })
-                    }
-                    arts->{
-                        postService.addPostOfArts(post).enqueue(object : Callback<PostResponse> {
-                            override fun onResponse(
-                                call: Call<PostResponse>,
-                                response: Response<PostResponse>
-                            ) {
-                                val data:PostResponse?=response.body()
-                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostArts", response.isSuccessful.toString())
-                                finish()
-                            }
-
-                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                                t.printStackTrace()
-                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                            }
-                        })
-
-                    }
-                    sport->{
-                        postService.addPostOfSport(post).enqueue(object : Callback<PostResponse> {
-                            override fun onResponse(
-                                call: Call<PostResponse>,
-                                response: Response<PostResponse>
-                            ) {
-                                val data:PostResponse?=response.body()
-                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostSport", response.isSuccessful.toString())
-                                finish()
-                            }
-
-                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                                t.printStackTrace()
-                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                            }
-                        })
-                    }
-                }
             }
-
             override fun onFailure(call: Call<FileResponse>, t: Throwable) {
                 t.printStackTrace()
                 Log.d("upload","失败")
@@ -569,7 +487,8 @@ class AddPostActivity : BaseActivity() {
 
     }
 
-    private fun uploadVideoAndPost(video:File,post: PostUp){
+    //上传视频的情况下直接上传帖子，因为不允许还上传图片
+    private fun uploadVideoAndPost(video:File,post: AddPostRequire){
         //动态代理，上传视频使用fileSerVice，上传帖子使用postService
         val fileService=ServiceCreator.create2(FileService::class.java)
         val postService=ServiceCreator.create(PostService::class.java)
@@ -580,72 +499,23 @@ class AddPostActivity : BaseActivity() {
             override fun onResponse(call: Call<FileResponse>, response: Response<FileResponse>) {
                 Log.d("AddActivity.uploadVideo",response.isSuccessful.toString())
                 post.videos=response.body()?.fileDownloadUri
-                when(plank){
-                    teaching->{
-                        postService.addPostOfTeaching(post).enqueue(object : Callback<PostResponse> {
-                            override fun onResponse(
-                                call: Call<PostResponse>,
-                                response: Response<PostResponse>
+                postService.postPost(post).enqueue(object : Callback<UniveResponse> {
+                    override fun onResponse(
+                        call: Call<UniveResponse>, response: Response<UniveResponse>
                             ) {
-                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostTeaching", response.isSuccessful.toString())
-                                val intent=Intent()
-                                intent.putExtra("send",true)
-                                setResult(1,intent)
-                                finish()
-                            }
-
-                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                                t.printStackTrace()
-                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                            }
-                        })
+                        Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
+                        Log.d("AddPostTeaching", response.isSuccessful.toString())
+                        val intent=Intent()
+                        intent.putExtra("send",true)
+                        setResult(1,intent)
+                        finish()
                     }
-                    arts->{
-                        postService.addPostOfArts(post).enqueue(object : Callback<PostResponse> {
-                            override fun onResponse(
-                                call: Call<PostResponse>,
-                                response: Response<PostResponse>
-                            ) {
-                                val data:PostResponse?=response.body()
-                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostArts", response.isSuccessful.toString())
-                                val intent=Intent()
-                                intent.putExtra("send",true)
-                                setResult(2,intent)
-                                finish()
-                            }
 
-                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                                t.printStackTrace()
-                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                            }
-                        })
-
+                    override fun onFailure(call: Call<UniveResponse>, t: Throwable) {
+                        t.printStackTrace()
+                        Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
                     }
-                    sport->{
-                        postService.addPostOfSport(post).enqueue(object : Callback<PostResponse> {
-                            override fun onResponse(
-                                call: Call<PostResponse>,
-                                response: Response<PostResponse>
-                            ) {
-                                val data:PostResponse?=response.body()
-                                Toast.makeText(MyApplication.context,"发送成功",Toast.LENGTH_SHORT).show()
-                                Log.d("AddPostSport", response.isSuccessful.toString())
-                                val intent=Intent()
-                                intent.putExtra("send",true)
-                                setResult(3,intent)
-                                finish()
-                            }
-
-                            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                                t.printStackTrace()
-                                Toast.makeText(MyApplication.context,"发送失败",Toast.LENGTH_SHORT).show()
-                            }
-                        })
-                    }
-                }
-
+                })
             }
 
             override fun onFailure(call: Call<FileResponse>, t: Throwable) {

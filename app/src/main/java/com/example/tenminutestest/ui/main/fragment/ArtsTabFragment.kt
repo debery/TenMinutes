@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tenminutestest.R
 import com.example.tenminutestest.logic.model.PostB
-import com.example.tenminutestest.logic.model.PostResponse
+import com.example.tenminutestest.logic.model.ListPostResponse
+import com.example.tenminutestest.logic.model.ListPostRequire
 import com.example.tenminutestest.logic.network.PostService
 import com.example.tenminutestest.logic.network.ServiceCreator
 import com.example.tenminutestest.ui.main.ShowButton
@@ -29,6 +30,8 @@ import retrofit2.Response
 class ArtsTabFragment: Fragment() {
 
     private val postList=ArrayList<PostB>()
+
+    private val ARTS=2
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,9 +61,10 @@ class ArtsTabFragment: Fragment() {
         }
 
         postArtsList()
+
         val recycler: RecyclerView? = view?.findViewById(R.id.recycler)
         recycler?.layoutManager = LinearLayoutManager(activity)
-        val adapter = GeneralPostAdapter(postList)
+        val adapter = GeneralPostAdapter(postList,ARTS)
         recycler?.adapter=adapter
 
         val btn: Button? = view?.findViewById(R.id.button)
@@ -76,10 +80,10 @@ class ArtsTabFragment: Fragment() {
 
     private fun postArtsList(){
         val postService=ServiceCreator.create(PostService::class.java)//获取动态代理
-        postService.listPostOfArts().enqueue(object : Callback<PostResponse>{
+        postService.getPosts(ListPostRequire("post_arts")).enqueue(object : Callback<ListPostResponse>{
             override fun onResponse(
-                call: Call<PostResponse>,
-                response: Response<PostResponse>
+                call: Call<ListPostResponse>,
+                response: Response<ListPostResponse>
             ) {
                 Log.d("post arts list","success is "+response.isSuccessful)
                 val list=response.body()?.items
@@ -91,17 +95,28 @@ class ArtsTabFragment: Fragment() {
                     MainActivity().runOnUiThread {
                         val recyclerView:RecyclerView=view?.findViewById(R.id.recycler)!!
                         recyclerView.layoutManager=LinearLayoutManager(activity)
-                        recyclerView.adapter=GeneralPostAdapter(postList)
+                        recyclerView.adapter=GeneralPostAdapter(postList,ARTS)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+            override fun onFailure(call: Call<ListPostResponse>, t: Throwable) {
                 t.printStackTrace()
             }
 
         })
     }
+
+    //暂时缺乏获取用户信息
+    private fun fromPostToPostB(){
+        for(post in postList){
+            post.userid
+            //根据userid获取头像昵称
+            post.user_avatar
+            post.nickname
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(data?.getBooleanExtra("send",false)==true){

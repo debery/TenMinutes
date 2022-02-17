@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tenminutestest.R
 import com.example.tenminutestest.logic.model.PostB
-import com.example.tenminutestest.logic.model.PostResponse
+import com.example.tenminutestest.logic.model.ListPostResponse
+import com.example.tenminutestest.logic.model.ListPostRequire
 import com.example.tenminutestest.logic.network.PostService
 import com.example.tenminutestest.logic.network.ServiceCreator
 import com.example.tenminutestest.ui.main.ShowButton
@@ -29,6 +30,8 @@ class SportTabFragment:Fragment() {
 
     //private var videoUri:String?=null
     private val postList=ArrayList<PostB>()
+
+    private val SPORT=3
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,7 +63,7 @@ class SportTabFragment:Fragment() {
         postSportList()
         val recyclerView:RecyclerView?=view?.findViewById(R.id.recycler)
         recyclerView?.layoutManager=LinearLayoutManager(activity)
-        val adapter=GeneralPostAdapter(postList)
+        val adapter=GeneralPostAdapter(postList,SPORT)
         recyclerView?.adapter= adapter
 
         val btn: Button? = view?.findViewById(R.id.button)
@@ -95,10 +98,10 @@ class SportTabFragment:Fragment() {
 
     private fun postSportList(){
         val postService=ServiceCreator.create(PostService::class.java)//获取动态代理
-        postService.listPostOfSport().enqueue(object : Callback<PostResponse>{
+        postService.getPosts(ListPostRequire("post_sport")).enqueue(object : Callback<ListPostResponse>{
             override fun onResponse(
-                call: Call<PostResponse>,
-                response: Response<PostResponse>
+                call: Call<ListPostResponse>,
+                response: Response<ListPostResponse>
             ) {
                 Log.d("post sport list","success is "+response.isSuccessful)
                 Log.d("post","item"+response.body()?.items)
@@ -111,12 +114,12 @@ class SportTabFragment:Fragment() {
                     MainActivity().runOnUiThread {
                         val recyclerView: RecyclerView =view?.findViewById(R.id.recycler)!!
                         recyclerView.layoutManager= LinearLayoutManager(activity)
-                        recyclerView.adapter= GeneralPostAdapter(postList)
+                        recyclerView.adapter= GeneralPostAdapter(postList,SPORT)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<PostResponse>, t: Throwable) {
+            override fun onFailure(call: Call<ListPostResponse>, t: Throwable) {
                 t.printStackTrace()
             }
 
@@ -126,6 +129,16 @@ class SportTabFragment:Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if(data?.getBooleanExtra("send",false)==true){
             postSportList()
+        }
+    }
+
+    //暂时缺乏获取用户信息
+    private fun fromPostToPostB(){
+        for(post in postList){
+            post.userid
+            //根据userid获取头像昵称
+            post.user_avatar
+            post.nickname
         }
     }
 

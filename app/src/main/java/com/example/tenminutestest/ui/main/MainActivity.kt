@@ -23,6 +23,9 @@ class MainActivity : BaseActivity() {
     private var userTabFragment: UserTabFragment?=null
     private var hotTabFragment: HotTabFragment?=null
 
+    //记载目前显示的板块
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,14 +47,15 @@ class MainActivity : BaseActivity() {
         activityRemove(this)
 
 
-        //获取文件读写权限
-        RequestInRun().verifyStoragePermissions(this)
+
         //跳转到登录界面
         val intent= Intent(this, LogActivity::class.java)
         if(User_IO.get_userinfos(this)==null) startActivity(intent)
         else{
             if(User_IO.get_userinfos(this)[4]=="0") startActivity(intent)
         }
+        //获取文件读写权限
+        RequestInRun().verifyStoragePermissions(this)
 
         //初始化布局，将fragment创建，add并hide
         initFragment()
@@ -181,6 +185,7 @@ class MainActivity : BaseActivity() {
         hideFragment(transaction)
         transaction.show(fragment)
         transaction.commit()
+
     }
 
     //重置Icon与Text
@@ -259,8 +264,5 @@ class MainActivity : BaseActivity() {
         this.window.attributes=alp
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
-
-
-
 
 }
